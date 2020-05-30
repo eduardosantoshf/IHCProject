@@ -297,6 +297,9 @@
   <ItemGroup>
     <Content Include="Musics\Dream It Possible.mp3" />
     <Content Include="Musics\冠世一战.mp3" />
+    <None Include="Resources\CoverClara.png" />
+    <None Include="Resources\Cover2.png" />
+    <None Include="Resources\Cover.png" />
     <None Include="Resources\Playlist.jpg" />
     <None Include="Resources\Playlist5.jpg" />
     <None Include="Resources\Playlist4.jpg" />

@@ -40,16 +40,7 @@
             this.AddBtn = new System.Windows.Forms.Button();
             this.NoInfoLabel = new System.Windows.Forms.Label();
             this.ListBox = new System.Windows.Forms.ListBox();
-            this.OperationPanel = new System.Windows.Forms.Panel();
-            this.iconPictureBox7 = new FontAwesome.Sharp.IconPictureBox();
-            this.iconPictureBox9 = new FontAwesome.Sharp.IconPictureBox();
-            this.iconPictureBox8 = new FontAwesome.Sharp.IconPictureBox();
             this.FavouritesMusic = new System.Windows.Forms.DataGridView();
-            this.Operation = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.MusicName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Singer = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.LoginPanel = new System.Windows.Forms.Panel();
             this.GoLogin = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -74,14 +65,14 @@
             this.label5 = new System.Windows.Forms.Label();
             this.FavouritesContexMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.PlayThisMusic = new System.Windows.Forms.ToolStripMenuItem();
+            this.MusicName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Singer = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Album = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Duration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.MyFavoritePanel.SuspendLayout();
             this.AddPanel.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.OperationPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox7)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox9)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.FavouritesMusic)).BeginInit();
             this.LoginPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Friend1Picture)).BeginInit();
@@ -107,7 +98,6 @@
             // 
             this.MyFavoritePanel.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.MyFavoritePanel.Controls.Add(this.AddPanel);
-            this.MyFavoritePanel.Controls.Add(this.OperationPanel);
             this.MyFavoritePanel.Controls.Add(this.FavouritesMusic);
             this.MyFavoritePanel.Controls.Add(this.LoginPanel);
             this.MyFavoritePanel.Controls.Add(this.panel3);
@@ -191,62 +181,6 @@
             this.ListBox.TabIndex = 42;
             this.ListBox.SelectedIndexChanged += new System.EventHandler(this.ListBox_SelectedIndexChanged);
             // 
-            // OperationPanel
-            // 
-            this.OperationPanel.Controls.Add(this.iconPictureBox7);
-            this.OperationPanel.Controls.Add(this.iconPictureBox9);
-            this.OperationPanel.Controls.Add(this.iconPictureBox8);
-            this.OperationPanel.Location = new System.Drawing.Point(103, 354);
-            this.OperationPanel.Name = "OperationPanel";
-            this.OperationPanel.Size = new System.Drawing.Size(180, 29);
-            this.OperationPanel.TabIndex = 45;
-            this.OperationPanel.Visible = false;
-            // 
-            // iconPictureBox7
-            // 
-            this.iconPictureBox7.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.iconPictureBox7.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconPictureBox7.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.iconPictureBox7.IconChar = FontAwesome.Sharp.IconChar.Heart;
-            this.iconPictureBox7.IconColor = System.Drawing.SystemColors.ControlText;
-            this.iconPictureBox7.IconSize = 35;
-            this.iconPictureBox7.Location = new System.Drawing.Point(19, 0);
-            this.iconPictureBox7.Name = "iconPictureBox7";
-            this.iconPictureBox7.Size = new System.Drawing.Size(46, 35);
-            this.iconPictureBox7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.iconPictureBox7.TabIndex = 49;
-            this.iconPictureBox7.TabStop = false;
-            // 
-            // iconPictureBox9
-            // 
-            this.iconPictureBox9.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.iconPictureBox9.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconPictureBox9.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.iconPictureBox9.IconChar = FontAwesome.Sharp.IconChar.Plus;
-            this.iconPictureBox9.IconColor = System.Drawing.SystemColors.ControlText;
-            this.iconPictureBox9.IconSize = 35;
-            this.iconPictureBox9.Location = new System.Drawing.Point(115, 0);
-            this.iconPictureBox9.Name = "iconPictureBox9";
-            this.iconPictureBox9.Size = new System.Drawing.Size(40, 35);
-            this.iconPictureBox9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.iconPictureBox9.TabIndex = 47;
-            this.iconPictureBox9.TabStop = false;
-            // 
-            // iconPictureBox8
-            // 
-            this.iconPictureBox8.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.iconPictureBox8.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.iconPictureBox8.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.iconPictureBox8.IconChar = FontAwesome.Sharp.IconChar.Download;
-            this.iconPictureBox8.IconColor = System.Drawing.SystemColors.ControlText;
-            this.iconPictureBox8.IconSize = 35;
-            this.iconPictureBox8.Location = new System.Drawing.Point(71, 0);
-            this.iconPictureBox8.Name = "iconPictureBox8";
-            this.iconPictureBox8.Size = new System.Drawing.Size(38, 35);
-            this.iconPictureBox8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.iconPictureBox8.TabIndex = 48;
-            this.iconPictureBox8.TabStop = false;
-            // 
             // FavouritesMusic
             // 
             this.FavouritesMusic.AllowUserToAddRows = false;
@@ -265,7 +199,6 @@
             this.FavouritesMusic.ColumnHeadersHeight = 40;
             this.FavouritesMusic.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.FavouritesMusic.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Operation,
             this.MusicName,
             this.Singer,
             this.Album,
@@ -296,53 +229,17 @@
             this.FavouritesMusic.RowTemplate.Height = 24;
             this.FavouritesMusic.Size = new System.Drawing.Size(1052, 359);
             this.FavouritesMusic.TabIndex = 42;
-            this.FavouritesMusic.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.FavouritesMusic_CellDoubleClick);
+            this.FavouritesMusic.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FavouritesMusic_CellMouseClick);
             this.FavouritesMusic.CellMouseDown += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.FavouritesMusic_CellMouseDown);
             this.FavouritesMusic.SelectionChanged += new System.EventHandler(this.FavouritesMusic_SelectionChanged);
             this.FavouritesMusic.Sorted += new System.EventHandler(this.FavouritesMusic_Sorted);
-            // 
-            // Operation
-            // 
-            this.Operation.HeaderText = "Operation";
-            this.Operation.MinimumWidth = 6;
-            this.Operation.Name = "Operation";
-            this.Operation.ReadOnly = true;
-            this.Operation.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // MusicName
-            // 
-            this.MusicName.HeaderText = "Name";
-            this.MusicName.MinimumWidth = 6;
-            this.MusicName.Name = "MusicName";
-            this.MusicName.ReadOnly = true;
-            // 
-            // Singer
-            // 
-            this.Singer.HeaderText = "Singer";
-            this.Singer.MinimumWidth = 6;
-            this.Singer.Name = "Singer";
-            this.Singer.ReadOnly = true;
-            // 
-            // Album
-            // 
-            this.Album.HeaderText = "Album";
-            this.Album.MinimumWidth = 6;
-            this.Album.Name = "Album";
-            this.Album.ReadOnly = true;
-            // 
-            // Duration
-            // 
-            this.Duration.HeaderText = "Duration";
-            this.Duration.MinimumWidth = 6;
-            this.Duration.Name = "Duration";
-            this.Duration.ReadOnly = true;
             // 
             // LoginPanel
             // 
             this.LoginPanel.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.LoginPanel.Controls.Add(this.GoLogin);
             this.LoginPanel.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.LoginPanel.Location = new System.Drawing.Point(256, 228);
+            this.LoginPanel.Location = new System.Drawing.Point(258, 241);
             this.LoginPanel.Name = "LoginPanel";
             this.LoginPanel.Size = new System.Drawing.Size(555, 107);
             this.LoginPanel.TabIndex = 41;
@@ -352,7 +249,7 @@
             this.GoLogin.AutoSize = true;
             this.GoLogin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.GoLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 11F, System.Drawing.FontStyle.Underline, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.GoLogin.Location = new System.Drawing.Point(198, 35);
+            this.GoLogin.Location = new System.Drawing.Point(228, 49);
             this.GoLogin.Name = "GoLogin";
             this.GoLogin.Size = new System.Drawing.Size(57, 24);
             this.GoLogin.TabIndex = 1;
@@ -587,14 +484,42 @@
             this.FavouritesContexMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.PlayThisMusic});
             this.FavouritesContexMenu.Name = "contextMenuStrip3";
-            this.FavouritesContexMenu.Size = new System.Drawing.Size(108, 28);
+            this.FavouritesContexMenu.Size = new System.Drawing.Size(106, 28);
             // 
             // PlayThisMusic
             // 
             this.PlayThisMusic.Name = "PlayThisMusic";
-            this.PlayThisMusic.Size = new System.Drawing.Size(107, 24);
+            this.PlayThisMusic.Size = new System.Drawing.Size(105, 24);
             this.PlayThisMusic.Text = "Play";
             this.PlayThisMusic.Click += new System.EventHandler(this.PlayThisMusic_Click);
+            // 
+            // MusicName
+            // 
+            this.MusicName.HeaderText = "Name";
+            this.MusicName.MinimumWidth = 6;
+            this.MusicName.Name = "MusicName";
+            this.MusicName.ReadOnly = true;
+            // 
+            // Singer
+            // 
+            this.Singer.HeaderText = "Singer";
+            this.Singer.MinimumWidth = 6;
+            this.Singer.Name = "Singer";
+            this.Singer.ReadOnly = true;
+            // 
+            // Album
+            // 
+            this.Album.HeaderText = "Album";
+            this.Album.MinimumWidth = 6;
+            this.Album.Name = "Album";
+            this.Album.ReadOnly = true;
+            // 
+            // Duration
+            // 
+            this.Duration.HeaderText = "Duration";
+            this.Duration.MinimumWidth = 6;
+            this.Duration.Name = "Duration";
+            this.Duration.ReadOnly = true;
             // 
             // FavouriteForm
             // 
@@ -610,10 +535,6 @@
             this.AddPanel.ResumeLayout(false);
             this.AddPanel.PerformLayout();
             this.panel2.ResumeLayout(false);
-            this.OperationPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox7)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox9)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.iconPictureBox8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.FavouritesMusic)).EndInit();
             this.LoginPanel.ResumeLayout(false);
             this.LoginPanel.PerformLayout();
@@ -655,15 +576,6 @@
         private System.Windows.Forms.Label NoInfoLabel;
         private System.Windows.Forms.Label GoLogin;
         private System.Windows.Forms.DataGridView FavouritesMusic;
-        private System.Windows.Forms.Panel OperationPanel;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Operation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn MusicName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Singer;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Album;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Duration;
-        private FontAwesome.Sharp.IconPictureBox iconPictureBox7;
-        private FontAwesome.Sharp.IconPictureBox iconPictureBox8;
-        private FontAwesome.Sharp.IconPictureBox iconPictureBox9;
         private System.Windows.Forms.ContextMenuStrip FavouritesContexMenu;
         private System.Windows.Forms.ToolStripMenuItem PlayThisMusic;
         private System.Windows.Forms.Label LikesNumber;
@@ -673,5 +585,9 @@
         private System.Windows.Forms.Button CancelBtn;
         private System.Windows.Forms.Button AddBtn;
         private System.Windows.Forms.ListBox ListBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn MusicName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Singer;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Album;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Duration;
     }
 }

@@ -25,6 +25,34 @@ namespace Muse_IC
             panels = new List<Panel>();
             InitializeComponent();
             FavouritesMusic.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            for (int i = 0; i < FavouritesMusic.ColumnCount; i++)
+            {
+                FavouritesMusic.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                FavouritesMusic.Columns[i].Width = 200;
+            }
+            DataGridViewImageColumn imgFav = new DataGridViewImageColumn();
+            
+
+            imgFav.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgFav.Width = 35;
+            imgFav.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgFav.Name = "img";
+            FavouritesMusic.Columns.Add(imgFav);
+
+            DataGridViewImageColumn imgAdd = new DataGridViewImageColumn();
+            imgAdd.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgAdd.Width = 35;
+            imgAdd.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgAdd.Name = "img";
+            FavouritesMusic.Columns.Add(imgAdd);
+
+            DataGridViewImageColumn imgDown = new DataGridViewImageColumn();
+            
+            imgDown.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgDown.Width = 35;
+            imgDown.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgDown.Name = "img";
+            FavouritesMusic.Columns.Add(imgDown);
             InitUserInfo();
         }
 
@@ -112,76 +140,30 @@ namespace Muse_IC
             downloadcount = 1;
             addcount = 1;
             FavouritesMusic.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            MusicNumber.Text = user.Favorite.Musics.Count.ToString();
             List<Music> favorites;
             if (user.email.Equals("LocalData"))
                 favorites = Favourite.favourite.Musics;
             else
                 favorites = user.Favorite.Musics;
-            
+
+
+            Image imageFav = getFav(Color.Red);
+            Image imageAdd = Image.FromFile(@"..\\..\\Resources\\Add.png");
+            Image imageDown = Image.FromFile(@"..\\..\\Resources\\Down.png");
+
             foreach (Music music in favorites)
             {
                 object[] row =
                 {
-                    "   ",
                     music.Name,
                     music.Singer,
                     music.Album,
-                    music.Duration
+                    music.Duration,
+                    imageFav,
+                    imageDown,
+                    imageAdd
                 };
-                if (lastpanel == null)
-                {
-                    lastpanel = ControlExtensions.Clone(OperationPanel);
-                    lastpanel.Visible = true;
-                    lastpanel.Name = "IconPanel_" + count;
-                    IconPictureBox icon1 = new IconPictureBox();
-                    InitHeartIcon(icon1);
-                    icon1.MouseClick += new MouseEventHandler(Remove);
-                    IconPictureBox icon2 = new IconPictureBox();
-                    InitDownloadIcon(icon2);
-                    IconPictureBox icon3 = new IconPictureBox();
-                    InitPlusIcon(icon3);
-
-                    lastpanel.Controls.Add(icon1);
-                    lastpanel.Controls.Add(icon2);
-                    lastpanel.Controls.Add(icon3);
-                    icon3.MouseClick += new MouseEventHandler(AddTo);
-
-                    MyFavoritePanel.Controls.Add(lastpanel);
-                    lastpanel.Show();
-                    FavouritesMusic.SendToBack();
-                    MyFavoritePanel.Refresh();
-                    panels.Add(lastpanel);
-                }
-                else
-                {
-                    if (panels.Count < 4)
-                    {
-                        Panel panel = ControlExtensions.Clone(lastpanel);
-                        panel.Visible = true;
-                        panel.Location = new Point(panel.Location.X, panel.Location.Y + 50);
-                        panel.BackColor = Color.White;
-                        panel.Name = "IconPanel_" + count;
-                        IconPictureBox icon1 = new IconPictureBox();
-                        InitHeartIcon(icon1);
-                        icon1.MouseClick += new MouseEventHandler(Remove);
-                        IconPictureBox icon2 = new IconPictureBox();
-                        InitDownloadIcon(icon2);
-                        IconPictureBox icon3 = new IconPictureBox();
-                        InitPlusIcon(icon3);
-                        icon3.MouseClick += new MouseEventHandler(AddTo);
-
-                        panel.Controls.Add(icon1);
-                        panel.Controls.Add(icon2);
-                        panel.Controls.Add(icon3);
-
-                        MyFavoritePanel.Controls.Add(panel);
-                        panel.Show();
-                        FavouritesMusic.SendToBack();
-                        MyFavoritePanel.Refresh();
-                        lastpanel = panel;
-                        panels.Add(panel);
-                    }
-                }
                 FavouritesMusic.Rows.Add(row);
             }
             ListBox.Items.Clear();
@@ -220,30 +202,20 @@ namespace Muse_IC
                 ChangePanelColor(index);
             }
         }
-
-        private void Remove(object o, EventArgs e)
+        private Image getFav(Color color)
         {
-            IconPictureBox ib = (IconPictureBox)o;
-            if (ib.Name.StartsWith("heart_"))
+            if (color == Color.Red)
             {
-                int index = int.Parse(ib.Name.Split(new char[] { '_' })[1]) - 1;
-                FavouritesMusic.Rows[index].Selected = true;
-                foreach (Music music in app.User.Favorite.Musics)
-                {
-                    string name = FavouritesMusic.Rows[index].Cells[1].Value.ToString();
-                    if (music.Name.Equals(name))
-                    {
-                        app.User.Favorite.Musics.Remove(music);
-                        ChangePanelColor(index);
-                        MessageBox.Show("Music removed from Favorite!");
-                        ClearMusicFound();
-                        FavouritesMusic.Rows.Clear();
-                        InitListView();
-                        break;
-                    }
-                }
+                Image imageFav = Image.FromFile(@"..\\..\\Resources\\HeartRed.png");
+                return imageFav;
+            }
+            else
+            {
+                Image imageFav = Image.FromFile(@"..\\..\\Resources\\HeartGrey.png");
+                return imageFav;
             }
         }
+
         private void InitHeartIcon(IconPictureBox iconPicture)
         {
             iconPicture.BackColor =SystemColors.ButtonHighlight;
@@ -356,9 +328,50 @@ namespace Muse_IC
             app.Play(musicname);
         }
 
-        private void FavouritesMusic_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private void FavouritesMusic_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
-            if (e.RowIndex != -1)
+            Music music = new Music();
+            foreach (Music m in app.Musics)
+            {
+                if (FavouritesMusic.CurrentRow.Cells[0].Value.ToString() == m.Name)
+                {
+                    music = m;
+                    break;
+                }
+            }
+
+
+            if (FavouritesMusic.CurrentCell.ColumnIndex == 4)
+            {
+                if (user.Favorite.Musics.Contains(music))
+                {
+                    user.Favorite.Musics.Remove(music);
+                    FavouritesMusic.CurrentCell.Value = getFav(Color.Silver);
+                }
+
+
+                else
+                {
+                    user.Favorite.Musics.Add(music);
+                    FavouritesMusic.CurrentCell.Value = getFav(Color.Red);
+                }
+                ClearMusicFound();
+                FavouritesMusic.Rows.Clear();
+                InitListView();
+
+            }
+            else if (FavouritesMusic.CurrentCell.ColumnIndex == 5)
+            {
+                MessageBox.Show("Downloaded");
+            }
+            else if (FavouritesMusic.CurrentCell.ColumnIndex == 6)
+            {
+                MessageBox.Show("Adding");
+                ListBox.Visible = true;
+                ListBox.Enabled = true;
+                ListBox.Show();
+            }
+            else
             {
                 string musicname = FavouritesMusic.Rows[e.RowIndex].Cells[1].Value.ToString();
                 if (app.User.email.Equals("LocalData"))
@@ -367,6 +380,8 @@ namespace Muse_IC
                     app.Musics = app.User.Favorite.Musics;
                 app.Play(musicname);
             }
+            FavouritesMusic.Refresh();
+            
         }
 
         private void ClearMusicFound()

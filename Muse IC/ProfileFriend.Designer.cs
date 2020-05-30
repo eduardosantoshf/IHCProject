@@ -205,11 +205,13 @@
             // 
             this.MusicListView.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.MusicListView.HideSelection = false;
-            this.MusicListView.Location = new System.Drawing.Point(45, 318);
+            this.MusicListView.Location = new System.Drawing.Point(30, 307);
             this.MusicListView.Name = "MusicListView";
             this.MusicListView.Size = new System.Drawing.Size(793, 279);
+            this.MusicListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.MusicListView.TabIndex = 18;
             this.MusicListView.UseCompatibleStateImageBehavior = false;
+            this.MusicListView.SelectedIndexChanged += new System.EventHandler(this.MusicListView_SelectedIndexChanged);
             // 
             // Bio
             // 

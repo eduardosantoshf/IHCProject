@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using FontAwesome.Sharp;
 
+
 namespace Muse_IC
 {
     public partial class PlayList_Music : Form,MyChildForm
@@ -27,6 +28,12 @@ namespace Muse_IC
             InitializeComponent();
             MusicPanel.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             MusicPanel.RowTemplate.Height = 30;
+            for (int i = 0; i < MusicPanel.ColumnCount; i++)
+            {
+                MusicPanel.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+                MusicPanel.Columns[i].Width = 200;
+            }
+
             InitUserInfo();
         }
         public void InitUserInfo()
@@ -92,81 +99,66 @@ namespace Muse_IC
         private Panel lastpanel = null;
 
         int count = 1;
-        int heartcount = 1;
-        int addcount = 1;
+      
         private void InitListView()
         {
             count = 1;
-            heartcount = 1;
-            addcount = 1;
             MusicPanel.CellBorderStyle = DataGridViewCellBorderStyle.None;
             MusicPanel.RowTemplate.Height = 50;
             ClearPlayListPanel();
             ListBox.Items.Clear();
+            
+           
+            DataGridViewImageColumn imgFav = new DataGridViewImageColumn();
+            Image imageFav=getFav(Color.Silver) ;
+            
+            imgFav.ImageLayout = DataGridViewImageCellLayout.Zoom;
+           
+            imgFav.Name = "img";
+            imgFav.Width = 35;
+            imgFav.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            MusicPanel.Columns.Add(imgFav);
+
+            DataGridViewImageColumn imgAdd = new DataGridViewImageColumn();
+            Image imageAdd = Image.FromFile(@"..\\..\\Resources\\Add.png");
+            imgAdd.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgAdd.Width = 35;
+            imgAdd.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgAdd.Name = "img";
+            MusicPanel.Columns.Add(imgAdd);
+
+            DataGridViewImageColumn imgDown = new DataGridViewImageColumn();
+            Image imageDown = Image.FromFile(@"..\\..\\Resources\\Down.png");
+            imgDown.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgDown.Width = 35;
+            imgDown.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgDown.Name = "img";
+            MusicPanel.Columns.Add(imgDown);
+
+                
+
             foreach (Music music in playList.Musics)
             {
-                object[] row =
+                if (app.User.Favorite.Musics.Contains(music))
                 {
-                    "   ",
-                    music.Name,
-                    music.Singer,
-                    music.Album,
-                    music.Duration
-                };
-                if (lastpanel == null)
-                {
-                    lastpanel = ControlExtensions.Clone(OperationPanel);
-                    lastpanel.Visible = true;
-                    lastpanel.Name = "lastpanel_" + count;
-
-                    IconPictureBox icon1 = new IconPictureBox();
-                    InitHeartIcon(icon1,music);
-                    icon1.MouseClick += new MouseEventHandler(Like);
-                    IconPictureBox icon2 = new IconPictureBox();
-                    InitDownloadIcon(icon2);
-                    IconPictureBox icon3 = new IconPictureBox();
-                    InitPlusIcon(icon3);
-                    icon3.MouseClick += new MouseEventHandler(AddTo);
-
-
-                    lastpanel.Controls.Add(icon1);
-                    lastpanel.Controls.Add(icon2);
-                    lastpanel.Controls.Add(icon3);
-                    PlaylistPanel.Controls.Add(lastpanel);
-                    lastpanel.Show();
-                    MusicPanel.SendToBack();
-                    PlaylistPanel.Refresh();
-                    panels.Add(lastpanel);
+                    imageFav = getFav(Color.Red);
                 }
                 else
                 {
-                    Panel panel = ControlExtensions.Clone(lastpanel);
-                    panel.Visible = true;
-                    panel.Location = new Point(panel.Location.X, panel.Location.Y + 50);
-                    panel.BackColor = Color.White;
-                    panel.Name = "lastpanel_" + count;
-
-                    IconPictureBox icon1 = new IconPictureBox();
-                    InitHeartIcon(icon1,music);
-                    icon1.MouseClick += new MouseEventHandler(Like);
-                    IconPictureBox icon2 = new IconPictureBox();
-                    InitDownloadIcon(icon2);
-                    IconPictureBox icon3 = new IconPictureBox();
-                    InitPlusIcon(icon3);
-                    icon3.MouseClick += new MouseEventHandler(AddTo);
-
-
-                    panel.Controls.Add(icon1);
-                    panel.Controls.Add(icon2);
-                    panel.Controls.Add(icon3);
-
-                    PlaylistPanel.Controls.Add(panel);
-                    panel.Show();
-                    MusicPanel.SendToBack();
-                    PlaylistPanel.Refresh();
-                    lastpanel = panel;
-                    panels.Add(panel);
+                    imageFav = getFav(Color.Silver);
                 }
+
+                object[] row =
+                {
+                    music.Name,
+                    music.Singer,
+                    music.Album,
+                    music.Duration,
+                    imageFav,
+                    imageDown,
+                    imageAdd
+                };
+                
                 MusicPanel.Rows.Add(row);
             }
             ListBox.Items.Clear();
@@ -187,58 +179,10 @@ namespace Muse_IC
                 NoInfoLabel.Visible = false;
             }
         }
-        private void InitHeartIcon(IconPictureBox iconPicture,Music music)
-        {
-            iconPicture.BackColor = SystemColors.ButtonHighlight;
-            iconPicture.Cursor = Cursors.Hand;
-            iconPicture.ForeColor = SystemColors.ControlText;
-            iconPicture.IconChar = IconChar.Heart;
-            if(user.Favorite.Musics.Contains(music))
-                iconPicture.IconColor = Color.Red;
-            else
-                iconPicture.IconColor = Color.Silver;
-            iconPicture.IconSize = 30;
-            iconPicture.Location = new Point(15, 2);
-            iconPicture.Name = "heart_" + heartcount;
-            iconPicture.Size = new Size(27, 27);
-            iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
-            iconPicture.TabIndex = 49;
-            iconPicture.TabStop = false;
-            heartcount++;
-        }
+        
 
-        private void InitDownloadIcon(IconPictureBox iconPicture)
-        {
-            iconPicture.BackColor = SystemColors.ButtonHighlight;
-            iconPicture.Cursor = Cursors.Hand;
-            iconPicture.ForeColor = SystemColors.ControlText;
-            iconPicture.IconChar = IconChar.Download;
-            iconPicture.IconColor = SystemColors.ControlText;
-            iconPicture.IconSize = 30;
-            iconPicture.Location = new Point(57, 2);
-            iconPicture.Name = "icon"+count;
-            iconPicture.Size = new Size(27, 27);
-            iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
-            iconPicture.TabIndex = 48;
-            iconPicture.TabStop = false;
-            count++;
-        }
-        private void InitPlusIcon(IconPictureBox iconPicture)
-        {
-            iconPicture.BackColor = SystemColors.ButtonHighlight;
-            iconPicture.Cursor = Cursors.Hand;
-            iconPicture.ForeColor = SystemColors.ControlText;
-            iconPicture.IconChar = IconChar.Plus;
-            iconPicture.IconColor = SystemColors.ControlText;
-            iconPicture.IconSize = 30;
-            iconPicture.Location = new Point(100, 2);
-            iconPicture.Name = "add_" + addcount;
-            iconPicture.Size = new Size(27, 27);
-            iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
-            iconPicture.TabIndex = 47;
-            iconPicture.TabStop = false;
-            addcount++;
-        }
+        
+      
         private void InitUserPictureBox(PictureBox Picture,User author)
         {
             
@@ -270,7 +214,7 @@ namespace Muse_IC
             iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
             iconPicture.TabIndex = 48;
             iconPicture.TabStop = false;
-            heartcount++;
+ 
         }
 
         private void InitReplyIcon(IconPictureBox iconPicture)
@@ -359,12 +303,69 @@ namespace Muse_IC
             app.Musics = playList.Musics;
             app.Play(musicname);
         }
-
-        private void FavouritesMusic_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        private Image getFav(Color color)
         {
-            string musicname = MusicPanel.Rows[e.RowIndex].Cells[1].Value.ToString();
-            app.Musics = playList.Musics;
-            app.Play(musicname);
+            if (color == Color.Red)
+            {
+                Image imageFav = Image.FromFile(@"..\\..\\Resources\\HeartRed.png");
+                return imageFav;
+            }
+            else
+            {
+                Image imageFav = Image.FromFile(@"..\\..\\Resources\\HeartGrey.png");
+                return imageFav;
+            }
+        }
+
+        private void FavouritesMusic_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            Music music = new Music();
+            foreach (Music m in app.Musics)
+            {
+                if (MusicPanel.CurrentRow.Cells[0].Value.ToString() == m.Name)
+                {
+                    music = m;
+                    break;
+                }   
+            }
+
+
+            if (MusicPanel.CurrentCell.ColumnIndex == 4)
+            {
+                if (user.Favorite.Musics.Contains(music))
+                {
+                    user.Favorite.Musics.Remove(music);
+                    MusicPanel.CurrentCell.Value = getFav(Color.Silver);
+                }
+
+
+                else
+                {
+                    user.Favorite.Musics.Add(music);
+                    MusicPanel.CurrentCell.Value = getFav(Color.Red);
+                }
+
+            }
+            else if (MusicPanel.CurrentCell.ColumnIndex == 5)
+            {
+                MessageBox.Show("Downloaded");
+            }
+            else if (MusicPanel.CurrentCell.ColumnIndex == 6)
+            {
+                MessageBox.Show("Adding");
+                ListBox.Visible = true;
+                ListBox.Enabled = true;
+                ListBox.Show();
+            }
+            else
+            {
+                string musicname = MusicPanel.Rows[e.RowIndex].Cells[1].Value.ToString();
+                app.Musics = playList.Musics;
+                app.Play(musicname);
+            }
+
+                
+            
         }
 
         private void MusicBtn_Click(object sender, EventArgs e)
@@ -517,26 +518,7 @@ namespace Muse_IC
             }
             CommentsPanel.Refresh();
         }
-        private void AddTo(object o, EventArgs e)
-        {
-            IconPictureBox ib = (IconPictureBox)o;
-            if (ib.Name.StartsWith("add_"))
-            {
-                int index = int.Parse(ib.Name.Split(new char[] { '_' })[1]) - 1;
-                MusicPanel.Rows[index].Selected = true;
-                foreach (Music music in app.User.Favorite.Musics)
-                {
-                    string name = MusicPanel.Rows[index].Cells[1].Value.ToString();
-                    if (music.Name.Equals(name))
-                    {
-                        currentMusic = music;
-                        break;
-                    }
-                }
-                AddPanel.Visible = true;
-                ChangePanelColor(index);
-            }
-        }
+        
         private void Like(object o, EventArgs e)
         {
             IconPictureBox ib = (IconPictureBox)o;
@@ -610,6 +592,11 @@ namespace Muse_IC
         {
             int index = MusicPanel.CurrentRow.Index;
             ChangePanelColor(index);
+        }
+
+        private void MusicPanel_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

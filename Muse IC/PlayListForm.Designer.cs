@@ -83,7 +83,7 @@
             this.NewPlaylistPanel.Controls.Add(this.button1);
             this.NewPlaylistPanel.Controls.Add(this.label3);
             this.NewPlaylistPanel.Controls.Add(this.PlayListNameBox);
-            this.NewPlaylistPanel.Location = new System.Drawing.Point(289, 127);
+            this.NewPlaylistPanel.Location = new System.Drawing.Point(287, 77);
             this.NewPlaylistPanel.Name = "NewPlaylistPanel";
             this.NewPlaylistPanel.Size = new System.Drawing.Size(546, 235);
             this.NewPlaylistPanel.TabIndex = 2;
@@ -154,6 +154,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label1.ForeColor = System.Drawing.Color.Black;
             this.label1.Location = new System.Drawing.Point(28, 18);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(124, 31);
@@ -188,9 +189,6 @@
             this.label2.Size = new System.Drawing.Size(127, 31);
             this.label2.TabIndex = 0;
             this.label2.Text = "Podcasts";
-            // 
-            // toolTip1
-            // 
             // 
             // PlayListForm
             // 

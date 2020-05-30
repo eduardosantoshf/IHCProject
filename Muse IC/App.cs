@@ -61,6 +61,7 @@ namespace Muse_IC
 
             Player.settings.autoStart = false;
             musics = Music.musicsList;
+          
             InitMusicInfo();
             OpenChildForm(new FindForm(this));
            
@@ -334,6 +335,7 @@ namespace Muse_IC
 
             TimeLeft.Text = "00:00";
             TimeRight.Text = Music.GetDuration(Player.URL);
+            MusicStatus.Maximum = Music.GetSeconds(Player.URL);
 
             foreach (Music music in Musics)
             {
@@ -364,6 +366,7 @@ namespace Muse_IC
              try
             {
                  Invoke(new SetControlValue(SetTime),Player.Ctlcontrols.currentPositionString);
+                
              }
              catch (Exception ex)
              {
@@ -375,6 +378,7 @@ namespace Muse_IC
         {
             TimeLeft.Text = value;
             TimeRight.Text = Player.currentMedia.durationString;
+            MusicStatus.Value++;
         }
 
 
@@ -465,6 +469,11 @@ namespace Muse_IC
         }
 
         private void Help_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
         {
 
         }

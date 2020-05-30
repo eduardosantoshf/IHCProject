@@ -100,6 +100,14 @@ namespace Muse_IC
                 sb.Append(seconds);
             return sb.ToString();
         }
+        public static int GetSeconds(string Path)
+        {
+            TimeSpan a = GetVideoDuration(Path);
+            int duration = (int)Math.Round(a.TotalSeconds);
+            return duration;
+        }
+
+
         private static TimeSpan GetVideoDuration(string filePath)
         {
             using (var shell = ShellObject.FromParsingName(filePath))

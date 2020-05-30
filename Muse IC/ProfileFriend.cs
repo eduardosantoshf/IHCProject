@@ -15,6 +15,7 @@ namespace Muse_IC
     {
         private User user;
         private App app;
+        private List<Music> musicFoundPlay = new List<Music>();
         public ProfileFriend(string username, App app)
         {
             this.user = User.users[username];
@@ -45,11 +46,12 @@ namespace Muse_IC
                     item.SubItems.Add(music.Duration);
                     item.SubItems.Add("2020/5/17");
                     MusicListView.Items.Add(item);
+                    musicFoundPlay.Add(music);
                 }
                    
             }
 
-            MusicListView.Columns[0].Width = -1;
+            MusicListView.Columns[0].Width = 140;
             MusicListView.Columns[1].Width = 140;
             MusicListView.Columns[2].Width = 140;
             MusicListView.Columns[3].Width = 140;
@@ -90,6 +92,22 @@ namespace Muse_IC
             Topic.Text = "";
             Message.Text = "";
             MessagePanel.Visible = false;
+        }
+
+        private void MusicListView_SelectedIndexChanged(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            
+        }
+
+        private void MusicListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selected_index = MusicListView.Items.IndexOf(MusicListView.SelectedItems[0]) + 1;
+            if (selected_index > 0)
+            {
+                string musicname = MusicListView.SelectedItems[0].Text;
+                app.Musics = musicFoundPlay;
+                app.Play(musicname);
+            }
         }
     }
 }
