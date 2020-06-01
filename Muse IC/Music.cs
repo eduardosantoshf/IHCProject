@@ -15,11 +15,15 @@ namespace Muse_IC
         private string album = "NoName";
         private string path;
         private string duration;
+        private int like;
+        private int shares;
+        private int downlod;
         private Image image;
         private String description;
         private List<String> tags = new List<String>();
         public static List<Music> musicsList = new List<Music>();
-        
+        private List<Comment> comments = new List<Comment>();
+
 
         public string Name { get => name; set => name = value; }
         public string Path { get => path; set => path = value; }
@@ -30,6 +34,10 @@ namespace Muse_IC
         public List<String> Tags { get => tags; set => tags = value; }
         public List<Music> musics { get => musicsList; set => musicsList = value; }
         public String Description { get => description; set => description = value; }
+        internal List<Comment> Comments { get => comments; set => comments = value; }
+        public int Like { get => like; set => like = value; }
+        public int Shares { get => shares; set => shares = value; }
+        public int Downlod { get => downlod; set => downlod = value; }
 
         public Music(String nome, String pathFile, String _singer = "Anonimous", String Album = "NoName", String dur = "")
         {

@@ -180,64 +180,64 @@ namespace Muse_IC
 
         private void NextIcon_MouseEnter(object sender, EventArgs e)
         {
-            NextIcon.IconColor = Color.DarkGray;
+            NextIcon.IconColor = Color.PapayaWhip;
         }
 
         private void NextIcon_MouseLeave(object sender, EventArgs e)
         {
-            NextIcon.IconColor = Color.DimGray;
+            NextIcon.IconColor = Color.Moccasin;
         }
 
         private void PlayIcon_MouseEnter(object sender, EventArgs e)
         {
-            PlayIcon.IconColor = Color.DarkGray;
+            PlayIcon.IconColor = Color.PapayaWhip;
         }
 
         private void PlayIcon_MouseLeave(object sender, EventArgs e)
         {
-            PlayIcon.IconColor = Color.DimGray;
+            PlayIcon.IconColor = Color.Moccasin;
         }
 
         private void PreviousIcon_MouseEnter(object sender, EventArgs e)
         {
-            PreviousIcon.IconColor = Color.DarkGray;
+            PreviousIcon.IconColor = Color.PapayaWhip;
         }
 
         private void PreviousIcon_MouseLeave(object sender, EventArgs e)
         {
-            PreviousIcon.IconColor = Color.DimGray;
+            PreviousIcon.IconColor = Color.Moccasin;
         }
 
         private void Home_MouseEnter(object sender, EventArgs e)
         {
-            Home.ForeColor=Color.DimGray;
+            Home.ForeColor=Color.PapayaWhip;
         }
 
         private void Home_MouseLeave(object sender, EventArgs e)
         {
-            Home.ForeColor = Color.Black ;
+            Home.ForeColor = Color.Moccasin;
         }
 
        
 
         private void Library_MouseEnter(object sender, EventArgs e)
         {
-            Library.ForeColor = Color.DimGray;
+            Library.ForeColor = Color.PapayaWhip;
         }
 
         private void Library_MouseLeave(object sender, EventArgs e)
         {
-            Library.ForeColor = Color.Black;
+            Library.ForeColor = Color.Moccasin;
         }
 
         private void Help_MouseEnter(object sender, EventArgs e)
         {
-            Help.ForeColor = Color.DimGray;
+            Help.ForeColor = Color.PapayaWhip;
         }
 
         private void Help_MouseLeave(object sender, EventArgs e)
         {
-            Home.ForeColor = Color.Black;
+            Home.ForeColor = Color.Moccasin;
         }
 
         private void VolumeIcon_Click(object sender, EventArgs e)
@@ -257,51 +257,51 @@ namespace Muse_IC
 
         private void VolumeIcon_MouseEnter(object sender, EventArgs e)
         {
-            VolumeIcon.IconColor = Color.DarkGray;
+            VolumeIcon.IconColor = Color.PapayaWhip;
         }
 
         private void VolumeIcon_MouseLeave(object sender, EventArgs e)
         {
-            VolumeIcon.IconColor = Color.DimGray;
+            VolumeIcon.IconColor = Color.Moccasin;
         }
 
         private void ModeIcon_MouseEnter(object sender, EventArgs e)
         {
-            ModeIcon.IconColor = Color.DarkGray;
+            ModeIcon.IconColor = Color.PapayaWhip;
         }
 
         private void ModeIcon_MouseLeave(object sender, EventArgs e)
         {
-            ModeIcon.IconColor = Color.DimGray;
+            ModeIcon.IconColor = Color.Moccasin;
         }
 
         private void HistoryIcon_MouseEnter(object sender, EventArgs e)
         {
-            HistoryIcon.IconColor = Color.DarkGray;
+            HistoryIcon.IconColor = Color.PapayaWhip;
         }
 
         private void HistoryIcon_MouseLeave(object sender, EventArgs e)
         {
-            HistoryIcon.IconColor = Color.DimGray;
+            HistoryIcon.IconColor = Color.Moccasin;
         }
         private void SingOutIcon_MouseEnter(object sender, EventArgs e)
         {
-            LognOutIcon.IconColor = Color.DarkGray;
+            LognOutIcon.IconColor = Color.PapayaWhip;
         }
 
         private void SingOutIcon_MouseLeave(object sender, EventArgs e)
         {
-            LognOutIcon.IconColor = Color.DimGray;
+            LognOutIcon.IconColor = Color.Moccasin;
         }
 
         private void EnvelopeIcon_MouseEnter(object sender, EventArgs e)
         {
-            EnvelopeIcon.IconColor = Color.DarkGray;
+            EnvelopeIcon.IconColor = Color.PapayaWhip;
         }
 
         private void EnvelopeIcon_MouseLeave(object sender, EventArgs e)
         {
-            EnvelopeIcon.IconColor = Color.DimGray;
+            EnvelopeIcon.IconColor = Color.Moccasin;
         }
 
         private void PlayIcon_Click(object sender, EventArgs e)
@@ -310,6 +310,7 @@ namespace Muse_IC
             {
                 Player.URL = Musics[currentMusic].Path;
                 InitTimer();
+                MusicStatus.Value = 0;
             }
             
 
@@ -351,15 +352,7 @@ namespace Muse_IC
              timer.Elapsed += new System.Timers.ElapsedEventHandler(TimerUp);
         }
 
-        private static TimeSpan GetVideoDuration(string filePath)
-        {
-            using (var shell = Microsoft.WindowsAPICodePack.Shell.ShellObject.FromParsingName(filePath))
-            {
-                IShellProperty prop = shell.Properties.System.Media.Duration;
-                var t = (ulong)prop.ValueAsObject;
-                return TimeSpan.FromTicks((long)t);
-            }
-        }
+       
 
         private void TimerUp(object sender, System.Timers.ElapsedEventArgs e)
          {
@@ -378,12 +371,23 @@ namespace Muse_IC
         {
             TimeLeft.Text = value;
             TimeRight.Text = Player.currentMedia.durationString;
-            MusicStatus.Value++;
+            
+            if (MusicStatus.Value+1==MusicStatus.Maximum)
+            {
+                MusicStatus.Value = 0;
+            }
+            else
+            {
+                if (PlayIcon.IconChar != IconChar.PlayCircle)
+                    MusicStatus.Value++;
+            }
+
         }
 
 
         private void PreviousIcon_Click(object sender, EventArgs e)
         {
+            MusicStatus.Value = 0;
             PlayIcon.IconChar = IconChar.PauseCircle;
             if (currentMusic - 1 < 0)
             {
@@ -395,13 +399,17 @@ namespace Muse_IC
             }
             Music music = Musics[currentMusic];
             Player.URL = music.Path;
+            MusicStatus.Maximum = (Music.GetSeconds(music.Path));
             Player.Ctlcontrols.play();
             InitMusicInfo();
             InitTimer();
         }
 
+        
+
         private void NextIcon_Click(object sender, EventArgs e)
         {
+            MusicStatus.Value = 0;
             PlayIcon.IconChar = IconChar.PauseCircle;
             if (currentMusic + 1 == Musics.Count)
             {
@@ -412,6 +420,7 @@ namespace Muse_IC
                 currentMusic += 1;
             }
             Music music = Musics[currentMusic];
+            MusicStatus.Maximum = Music.GetSeconds(music.Path);
             Player.URL = music.Path;
             Player.Ctlcontrols.play();
             InitMusicInfo();
@@ -474,6 +483,78 @@ namespace Muse_IC
         }
 
         private void progressBar1_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void FindBtn_MouseEnter(object sender, EventArgs e)
+        {
+            FindBtn.BackColor = Color.FromArgb(130, 160, 177);
+        }
+
+        private void FindBtn_MouseLeave(object sender, EventArgs e)
+        {
+            FindBtn.BackColor = Color.FromArgb(104, 134, 177); 
+        }
+
+        private void FriendsBtn_MouseEnter(object sender, EventArgs e)
+        {
+            FriendsBtn.BackColor = Color.FromArgb(130, 160, 177);
+        }
+
+        private void FriendsBtn_MouseLeave(object sender, EventArgs e)
+        {
+            FriendsBtn.BackColor = Color.FromArgb(104, 134, 177);
+        }
+
+        private void MySongBtn_MouseEnter(object sender, EventArgs e)
+        {
+            MySongBtn.BackColor = Color.FromArgb(130, 160, 177);
+        }
+
+        private void MySongBtn_MouseLeave(object sender, EventArgs e)
+        {
+            MySongBtn.BackColor = Color.FromArgb(104, 134, 177);
+        }
+        private void FavouriteBtn_MouseEnter(object sender, EventArgs e)
+        {
+            FavouriteBtn.BackColor = Color.FromArgb(130, 160, 177);
+        }
+
+        private void FavouriteBtn_MouseLeave(object sender, EventArgs e)
+        {
+            FavouriteBtn.BackColor = Color.FromArgb(104, 134, 177);
+        }
+        private void PlayListBtn_MouseEnter(object sender, EventArgs e)
+        {
+            PlayListBtn.BackColor = Color.FromArgb(130, 160, 177);
+        }
+
+        private void PlayListBtn_MouseLeave(object sender, EventArgs e)
+        {
+            PlayListBtn.BackColor = Color.FromArgb(104, 134, 177);
+        }
+
+        private void UploadBtn_MouseEnter(object sender, EventArgs e)
+        {
+            UploadBtn.BackColor = Color.FromArgb(130, 160, 177);
+        }
+
+        private void UploadBtn_MouseLeave(object sender, EventArgs e)
+        {
+            UploadBtn.BackColor = Color.FromArgb(104, 134, 177);
+        }
+
+        private void panel2_MouseEnter(object sender, EventArgs e)
+        {
+            panel2.BackColor = Color.MintCream;
+        }
+
+        private void panel2_MouseLeave(object sender, EventArgs e)
+        {
+            panel2.BackColor = Color.LightCyan;
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

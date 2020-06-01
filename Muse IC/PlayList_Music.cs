@@ -20,6 +20,7 @@ namespace Muse_IC
         private PlayList playList;
         private string playlistname;
         private Music currentMusic;
+        private List<Panel> comments = new List<Panel>();
         public PlayList_Music(string playlistname, App app)
         {
             this.app = app;
@@ -30,8 +31,8 @@ namespace Muse_IC
             MusicPanel.RowTemplate.Height = 30;
             for (int i = 0; i < MusicPanel.ColumnCount; i++)
             {
-                MusicPanel.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                MusicPanel.Columns[i].Width = 200;
+                MusicPanel.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+               
             }
 
             InitUserInfo();
@@ -48,22 +49,22 @@ namespace Muse_IC
                 Private.Visible = false;
                 PrivateLabel.Visible = false;
                 PublishPanel.Visible = false;
-                foreach (PlayList playList in PlayList.playLists)
+                foreach (PlayList Findplay in PlayList.playLists)
                 {
-                    if (playList.PlaylistName.Equals(playlistname))
+                    if (Findplay.PlaylistName.Equals(playlistname))
                     {
-                        this.playList = playList;
+                        playList = Findplay;
                         break;
                     }
                 }
             }
             else
             {
-                foreach (PlayList playList in user.myPlaylist)
+                foreach (PlayList FindplayList in app.User.myPlaylist)
                 {
-                    if (playList.PlaylistName.Equals(playlistname))
+                    if (FindplayList.PlaylistName.Equals(playlistname))
                     {
-                        this.playList = playList;
+                        playList = FindplayList;
                         break;
                     }
                 }
@@ -95,8 +96,6 @@ namespace Muse_IC
             ViewsNumber.Text = playList.Views + "";
             Private.IconChar = playList.IsPrivate ? IconChar.ToggleOff : IconChar.ToggleOn ;
         }
-
-        private Panel lastpanel = null;
 
         int count = 1;
       
@@ -135,7 +134,15 @@ namespace Muse_IC
             imgDown.Name = "img";
             MusicPanel.Columns.Add(imgDown);
 
-                
+            DataGridViewImageColumn imgGo = new DataGridViewImageColumn();
+            Image goCheck = Image.FromFile(@"..\\..\\Resources\\GoCheck.png");
+   
+            imgGo.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgGo.Width = 35;
+            imgGo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgGo.Name = "img";
+            imgGo.HeaderText = "";
+            MusicPanel.Columns.Add(imgGo);
 
             foreach (Music music in playList.Musics)
             {
@@ -156,7 +163,8 @@ namespace Muse_IC
                     music.Duration,
                     imageFav,
                     imageDown,
-                    imageAdd
+                    imageAdd,
+                    goCheck
                 };
                 
                 MusicPanel.Rows.Add(row);
@@ -187,8 +195,7 @@ namespace Muse_IC
         {
             
             Picture.Image = author.Picture;
-            
-            Picture.BackColor = SystemColors.ButtonHighlight;
+            Picture.BackColor = Color.Transparent;
             Picture.Cursor = Cursors.Hand;
             Picture.ForeColor = SystemColors.ControlText;
             Picture.Location = Friend1Picture.Location;
@@ -202,7 +209,7 @@ namespace Muse_IC
 
         private void InitLikeIcon(IconPictureBox iconPicture)
         {
-            iconPicture.BackColor = SystemColors.ButtonHighlight;
+            iconPicture.BackColor = Color.Transparent;
             iconPicture.Cursor = Cursors.Hand;
             iconPicture.ForeColor = SystemColors.ControlText;
             iconPicture.IconChar = IconChar.ThumbsUp;
@@ -219,10 +226,10 @@ namespace Muse_IC
 
         private void InitReplyIcon(IconPictureBox iconPicture)
         {
-            iconPicture.BackColor = SystemColors.ButtonHighlight;
+            iconPicture.BackColor = Color.Transparent;
             iconPicture.Cursor = Cursors.Hand;
             iconPicture.ForeColor = SystemColors.ControlText;
-            iconPicture.IconChar = IconChar.Reply;
+            iconPicture.IconChar = IconChar.CommentDots;
             iconPicture.IconColor = SystemColors.ControlText;
             iconPicture.IconSize = 30;
             iconPicture.Location = ReplayIcon.Location;
@@ -261,7 +268,7 @@ namespace Muse_IC
                 PlaylistPanel.Controls.Remove(cont);
             }
             PlaylistPanel.Refresh();
-            lastpanel = null;
+           
         }
 
         private void ChangePanelColor(int index)
@@ -299,7 +306,7 @@ namespace Muse_IC
 
         private void PlayThisMusic_Click(object sender, EventArgs e)
         {
-            string musicname = MusicPanel.SelectedRows[0].Cells[1].Value.ToString();
+            string musicname = MusicPanel.SelectedRows[0].Cells[0].Value.ToString();
             app.Musics = playList.Musics;
             app.Play(musicname);
         }
@@ -325,17 +332,25 @@ namespace Muse_IC
                 if (MusicPanel.CurrentRow.Cells[0].Value.ToString() == m.Name)
                 {
                     music = m;
+                    currentMusic = music;
                     break;
                 }   
             }
 
 
-            if (MusicPanel.CurrentCell.ColumnIndex == 4)
+            if (MusicPanel.CurrentCell.ColumnIndex == 7)
+            {
+                currentMusic = music;
+                app.OpenChildForm(new MusicForm(app, music));
+            }
+
+            else if(MusicPanel.CurrentCell.ColumnIndex == 4)
             {
                 if (user.Favorite.Musics.Contains(music))
                 {
                     user.Favorite.Musics.Remove(music);
                     MusicPanel.CurrentCell.Value = getFav(Color.Silver);
+                    MessageBox.Show("Removed from Favorites!");
                 }
 
 
@@ -343,6 +358,7 @@ namespace Muse_IC
                 {
                     user.Favorite.Musics.Add(music);
                     MusicPanel.CurrentCell.Value = getFav(Color.Red);
+                    MessageBox.Show("Added to Favorites!");
                 }
 
             }
@@ -352,14 +368,13 @@ namespace Muse_IC
             }
             else if (MusicPanel.CurrentCell.ColumnIndex == 6)
             {
-                MessageBox.Show("Adding");
-                ListBox.Visible = true;
-                ListBox.Enabled = true;
-                ListBox.Show();
+                AddPanel.Visible = true;
+                AddPanel.Enabled = true;
+                AddPanel.Show();
             }
             else
             {
-                string musicname = MusicPanel.Rows[e.RowIndex].Cells[1].Value.ToString();
+                string musicname = MusicPanel.Rows[e.RowIndex].Cells[0].Value.ToString();
                 app.Musics = playList.Musics;
                 app.Play(musicname);
             }
@@ -379,20 +394,26 @@ namespace Muse_IC
         private Panel lastComment;
         private void InitComments()
         {
+          foreach(Panel innerPanel in comments)
+            {
+                innerPanel.Dispose();
+                lastComment = null;
+            }
             foreach(Comment comment in playList.Comments)
             {
+
                 if (lastComment == null)
                 {
                     lastComment = ControlExtensions.Clone(CommentExemple);
                     lastComment.Visible = true;
                     lastComment.Name = "CommentPanel" + count;
+                    lastComment.BackColor = Color.FromArgb(89, 147, 180);
                     PictureBox pb = new PictureBox();
                     InitUserPictureBox(pb,comment.Author);
                     IconPictureBox icon2 = new IconPictureBox();
                     InitLikeIcon(icon2);
                     IconPictureBox icon3 = new IconPictureBox();
                     InitReplyIcon(icon3);
-
                     Label commentername = ControlExtensions.Clone(CommenterName);
                     commentername.Text = comment.Author.Username +":";
                     commentername.Visible = true;
@@ -417,6 +438,7 @@ namespace Muse_IC
                     lastComment.Controls.Add(content);
                     lastComment.Controls.Add(commentername);
                     CommentsPanel.Controls.Add(lastComment);
+                    comments.Add(lastComment);
                     lastComment.Show();
                     CommentsPanel.Refresh();
                 }
@@ -425,8 +447,8 @@ namespace Muse_IC
                     Panel panel = ControlExtensions.Clone(lastComment);
                     panel.Name= "CommentPanel" + count;
                     panel.Visible = true;
-                    panel.Location = new Point(panel.Location.X, panel.Location.Y + 65);
-                    panel.BackColor = Color.White;
+                    panel.Location = new Point(panel.Location.X, panel.Location.Y + 70);
+                    panel.BackColor = Color.FromArgb(89, 147, 180);
                     PictureBox pb = new PictureBox();
                     InitUserPictureBox(pb,comment.Author);
                     IconPictureBox icon2 = new IconPictureBox();
@@ -460,6 +482,7 @@ namespace Muse_IC
                     CommentsPanel.Controls.Add(lastComment);
                     panel.Show();
                     CommentsPanel.Refresh();
+                    comments.Add(lastComment);
                     lastComment = panel;
                 }
                 count++;
@@ -468,11 +491,11 @@ namespace Muse_IC
         }
         private void CommentsBtn_Click(object sender, EventArgs e)
         {
+            
             InitComments();
             MusicPanel.Visible = false;
             CommentsLoginPanel.Visible = true;
             CommentsPanel.Visible = true;
-            CommentsPanel.Location = MusicPanel.Location;
             if (user.email.Equals("LocalData"))
             {
                 CommentsLoginPanel.Visible = true;
@@ -487,7 +510,7 @@ namespace Muse_IC
 
         private void Publish_Click(object sender, EventArgs e)
         {
-            if (CommentContent.Text.Trim().Length < 1)
+            if (CommentContentBox.Text.Trim().Length < 1)
             {
                 MessageBox.Show("Comment can not be empty!");
                 return;
@@ -495,6 +518,7 @@ namespace Muse_IC
             Comment comment = new Comment();
             comment.Content = CommentContentBox.Text;
             comment.Author = app.User;
+            CommentContentBox.Text = "";
             comment.Date= DateTime.Now.ToLongDateString().ToString();
             playList.Comments.Add(comment);
             lastComment = null;
@@ -519,35 +543,7 @@ namespace Muse_IC
             CommentsPanel.Refresh();
         }
         
-        private void Like(object o, EventArgs e)
-        {
-            IconPictureBox ib = (IconPictureBox)o;
-            if (ib.Name.StartsWith("heart_"))
-            {
-                int index = int.Parse(ib.Name.Split(new char[] { '_' })[1])-1;
-                MusicPanel.Rows[index].Selected = true;
-                foreach (Music music in playList.Musics)
-                {
-                    string name = MusicPanel.Rows[index].Cells[1].Value.ToString();
-                    if (music.Name.Equals(name))
-                    {
-                        if (ib.ForeColor == Color.Silver)
-                        {
-                            app.User.Favorite.Musics.Add(music);
-                            ib.ForeColor = Color.Black;
-                            MessageBox.Show("Music added!");
-                        }
-                        else
-                        {
-                            app.User.Favorite.Musics.Remove(music);
-                            ib.ForeColor = Color.Silver;
-                            MessageBox.Show("Music removed from Favorite!");
-                        }
-                        break;
-                    }
-                }
-            }
-        }
+        
         private void PrivateIcon_Click(object sender, EventArgs e)
         {
             if (Private.IconChar == IconChar.ToggleOn)
@@ -597,6 +593,55 @@ namespace Muse_IC
         private void MusicPanel_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void HeartIcon_Click(object sender, EventArgs e)
+        {
+            if (HeartIcon.IconColor == Color.Red)
+            {
+                HeartIcon.IconColor = Color.Silver;
+                
+                LikesNumber.Text = (int.Parse(LikesNumber.Text)-1).ToString();
+
+            }
+            else
+            {
+                HeartIcon.IconColor = Color.Red;
+                
+           
+                LikesNumber.Text = (int.Parse(LikesNumber.Text) + 1).ToString();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            
+            NewPlaylistPanel.Visible = true;
+            NewPlaylistPanel.BringToFront();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (PlayListNameBox.Text.Trim().Length < 1)
+            {
+                MessageBox.Show("Playlist name can't be empty!");
+                return;
+            }
+            PlayList playList = new PlayList(PlayListNameBox.Text);
+
+            playList.Image = Properties.Resources.Playlist;
+            app.User.myPlaylist.Add(playList);
+            PlayListNameBox.Text = "";
+            NewPlaylistPanel.Visible = false;
+            ListBox.Items.Add(playList.PlaylistName);
+            NoInfoLabel.Text = "Select A Playlist";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+
+            NewPlaylistPanel.Visible = false;
         }
     }
 }

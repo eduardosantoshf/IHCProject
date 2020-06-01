@@ -73,6 +73,26 @@ namespace Muse_IC.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap BackGroundDark {
+            get {
+                object obj = ResourceManager.GetObject("BackGroundDark", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap BackGroundDarkBlue {
+            get {
+                object obj = ResourceManager.GetObject("BackGroundDarkBlue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap Bola {
             get {
                 object obj = ResourceManager.GetObject("Bola", resourceCulture);

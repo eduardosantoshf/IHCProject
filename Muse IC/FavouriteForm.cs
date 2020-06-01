@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using FontAwesome.Sharp;
 
 namespace Muse_IC
@@ -25,10 +26,10 @@ namespace Muse_IC
             panels = new List<Panel>();
             InitializeComponent();
             FavouritesMusic.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            FavouritesMusic.DefaultCellStyle.BackColor = Color.FromArgb(181, 179, 180);
             for (int i = 0; i < FavouritesMusic.ColumnCount; i++)
             {
-                FavouritesMusic.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                FavouritesMusic.Columns[i].Width = 200;
+                FavouritesMusic.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             DataGridViewImageColumn imgFav = new DataGridViewImageColumn();
             
@@ -118,12 +119,20 @@ namespace Muse_IC
             {
                 Private.IconChar = IconChar.ToggleOff;
                 user.Favorite.IsPrivate = false;
+                LikesNumber.Visible = false;
+                HeartIcon.Visible = false;
+                ShareIcon.Visible = false;
+                SharesNumber.Visible = false;
             }
 
             else
             {
                 Private.IconChar = IconChar.ToggleOn;
                 user.Favorite.IsPrivate = true;
+                LikesNumber.Visible = true;
+                HeartIcon.Visible = true;
+                ShareIcon.Visible = true;
+                SharesNumber.Visible = true;
             }
                 
         }
@@ -139,7 +148,7 @@ namespace Muse_IC
             heartcount = 1;
             downloadcount = 1;
             addcount = 1;
-            FavouritesMusic.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            FavouritesMusic.CellBorderStyle = DataGridViewCellBorderStyle.Single;
             MusicNumber.Text = user.Favorite.Musics.Count.ToString();
             List<Music> favorites;
             if (user.email.Equals("LocalData"))
@@ -151,7 +160,14 @@ namespace Muse_IC
             Image imageFav = getFav(Color.Red);
             Image imageAdd = Image.FromFile(@"..\\..\\Resources\\Add.png");
             Image imageDown = Image.FromFile(@"..\\..\\Resources\\Down.png");
-
+            DataGridViewImageColumn imgGo = new DataGridViewImageColumn();
+            Image goCheck = Image.FromFile(@"..\\..\\Resources\\GoCheck.png");
+            imgGo.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgGo.Width = 35;
+            imgGo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgGo.Name = "img";
+            imgGo.HeaderText = "";
+            FavouritesMusic.Columns.Add(imgGo);
             foreach (Music music in favorites)
             {
                 object[] row =
@@ -162,7 +178,8 @@ namespace Muse_IC
                     music.Duration,
                     imageFav,
                     imageDown,
-                    imageAdd
+                    imageAdd,
+                    goCheck
                 };
                 FavouritesMusic.Rows.Add(row);
             }
@@ -216,56 +233,7 @@ namespace Muse_IC
             }
         }
 
-        private void InitHeartIcon(IconPictureBox iconPicture)
-        {
-            iconPicture.BackColor =SystemColors.ButtonHighlight;
-            iconPicture.Cursor =Cursors.Hand;
-            iconPicture.ForeColor = SystemColors.ControlText;
-            iconPicture.IconChar = IconChar.Heart;
-            iconPicture.IconColor = SystemColors.ControlText;
-            iconPicture.IconSize = 30;
-            iconPicture.IconColor = Color.Red;
-            iconPicture.Location = new Point(15, 2);
-            iconPicture.Name = "heart_" + heartcount;
-            iconPicture.Size = new Size(27, 27);
-            iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
-            iconPicture.TabIndex = 49;
-            iconPicture.TabStop = false;
-            heartcount++;
-        }
-
-        private void InitDownloadIcon(IconPictureBox iconPicture)
-        {
-            iconPicture.BackColor = SystemColors.ButtonHighlight;
-            iconPicture.Cursor = Cursors.Hand;
-            iconPicture.ForeColor = SystemColors.ControlText;
-            iconPicture.IconChar = IconChar.Download;
-            iconPicture.IconColor = SystemColors.ControlText;
-            iconPicture.IconSize = 30;
-            iconPicture.Location = new Point(57, 2);
-            iconPicture.Name = "download_" + downloadcount;
-            iconPicture.Size = new Size(27, 27);
-            iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
-            iconPicture.TabIndex = 48;
-            iconPicture.TabStop = false;
-            downloadcount++;
-        }
-        private void InitPlusIcon(IconPictureBox iconPicture)
-        {
-            iconPicture.BackColor = SystemColors.ButtonHighlight;
-            iconPicture.Cursor = Cursors.Hand;
-            iconPicture.ForeColor = SystemColors.ControlText;
-            iconPicture.IconChar = IconChar.Plus;
-            iconPicture.IconColor = SystemColors.ControlText;
-            iconPicture.IconSize = 30;
-            iconPicture.Location = new Point(100, 2);
-            iconPicture.Name = "add_" + addcount;
-            iconPicture.Size = new Size(27, 27);
-            iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
-            iconPicture.TabIndex = 47;
-            iconPicture.TabStop = false;
-            addcount++;
-        }
+       
 
         private void GoLogin_Click(object sender, EventArgs e)
         {
@@ -320,7 +288,7 @@ namespace Muse_IC
 
         private void PlayThisMusic_Click(object sender, EventArgs e)
         {
-            string musicname = FavouritesMusic.SelectedRows[0].Cells[1].Value.ToString();
+            string musicname = FavouritesMusic.SelectedRows[0].Cells[0].Value.ToString();
             if (app.User.email.Equals("LocalData"))
                 app.Musics = Favourite.favourite.Musics;
             else
@@ -336,17 +304,22 @@ namespace Muse_IC
                 if (FavouritesMusic.CurrentRow.Cells[0].Value.ToString() == m.Name)
                 {
                     music = m;
+                    currentMusic = music;
                     break;
                 }
             }
 
-
-            if (FavouritesMusic.CurrentCell.ColumnIndex == 4)
+            if (FavouritesMusic.CurrentCell.ColumnIndex == 7)
+            {
+                app.OpenChildForm(new MusicForm(app, music));
+            }
+            else if (FavouritesMusic.CurrentCell.ColumnIndex == 4)
             {
                 if (user.Favorite.Musics.Contains(music))
                 {
                     user.Favorite.Musics.Remove(music);
                     FavouritesMusic.CurrentCell.Value = getFav(Color.Silver);
+                    MessageBox.Show("Removed from Favorites!");
                 }
 
 
@@ -354,6 +327,7 @@ namespace Muse_IC
                 {
                     user.Favorite.Musics.Add(music);
                     FavouritesMusic.CurrentCell.Value = getFav(Color.Red);
+                    MessageBox.Show("Added to Favorites!");
                 }
                 ClearMusicFound();
                 FavouritesMusic.Rows.Clear();
@@ -366,19 +340,25 @@ namespace Muse_IC
             }
             else if (FavouritesMusic.CurrentCell.ColumnIndex == 6)
             {
-                MessageBox.Show("Adding");
-                ListBox.Visible = true;
-                ListBox.Enabled = true;
-                ListBox.Show();
+                currentMusic = music;
+                AddPanel.Visible = true;
+                
             }
             else
             {
-                string musicname = FavouritesMusic.Rows[e.RowIndex].Cells[1].Value.ToString();
-                if (app.User.email.Equals("LocalData"))
-                    app.Musics = Favourite.favourite.Musics;
-                else
-                    app.Musics = app.User.Favorite.Musics;
-                app.Play(musicname);
+                if (e.RowIndex > -1)
+                {
+
+                    string musicname = FavouritesMusic.Rows[e.RowIndex].Cells[0].Value.ToString();
+
+                    if (app.User.email.Equals("LocalData"))
+                        app.Musics = Favourite.favourite.Musics;
+                    else
+                        app.Musics = app.User.Favorite.Musics;
+                    app.Play(musicname);
+                }
+                
+                
             }
             FavouritesMusic.Refresh();
             
@@ -439,6 +419,53 @@ namespace Muse_IC
         {
             int index = FavouritesMusic.CurrentRow.Index;
             ChangePanelColor(index);
+        }
+
+        private void HeartIcon_Click(object sender, EventArgs e)
+        {
+            if (HeartIcon.ForeColor == Color.Red)
+            {
+                HeartIcon.IconColor = Color.Silver;
+                LikesNumber.Text = (int.Parse(LikesNumber.Text) - 1).ToString();
+            }
+            else
+            {
+                HeartIcon.IconColor = Color.Red;
+                LikesNumber.Text = (int.Parse(LikesNumber.Text) + 1).ToString();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            NewPlaylistPanel.Visible = true;
+            NewPlaylistPanel.BringToFront();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (PlayListNameBox.Text.Trim().Length < 1)
+            {
+                MessageBox.Show("Playlist name can't be empty!");
+                return;
+            }
+            PlayList playList = new PlayList(PlayListNameBox.Text);
+
+            playList.Image = Properties.Resources.Playlist;
+            app.User.myPlaylist.Add(playList);
+            PlayListNameBox.Text = "";
+            NewPlaylistPanel.Visible = false;
+            ListBox.Items.Add(playList.PlaylistName);
+            NoInfoLabel.Visible = false;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            NewPlaylistPanel.Visible = false;
+        }
+
+        private void FavouritesMusic_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 

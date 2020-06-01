@@ -161,7 +161,7 @@ namespace Muse_IC
                 MessageBox.Show("No music to upload or Name box is empty!");
                 return;
             }
-
+            AddMusicIcon.IconChar = IconChar.PlusCircle;
 
             if (musicsToUpload.Count == 1)
             {

@@ -124,6 +124,9 @@
   <data name="facebook" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\facebook.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="BackGroundDark" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BackGroundDark.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Music" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Music.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -172,6 +175,9 @@
   <data name="Cover2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cover2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="CoverClara" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CoverClara.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="Cover" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Cover.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -199,7 +205,7 @@
   <data name="Playlist3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Playlist3.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="CoverClara" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\CoverClara.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="BackGroundDarkBlue" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\BackGroundDarkBlue.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

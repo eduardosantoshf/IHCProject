@@ -25,8 +25,7 @@ namespace Muse_IC
             MusicFound.RowTemplate.Height = 40;
             for (int i=0; i < MusicFound.ColumnCount; i++)
             {
-                MusicFound.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
-                MusicFound.Columns[i].Width = 200;
+                MusicFound.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
             }
             
             InitListView();
@@ -74,6 +73,14 @@ namespace Muse_IC
             imgDown.Width = 35;
             imgDown.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
             MusicFound.Columns.Add(imgDown);
+            DataGridViewImageColumn imgGo = new DataGridViewImageColumn();
+            Image goCheck = Image.FromFile(@"..\\..\\Resources\\GoCheck.png");
+            imgGo.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgGo.Width = 35;
+            imgGo.HeaderText = "";
+            imgGo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgGo.Name = "img";
+            MusicFound.Columns.Add(imgGo);
 
 
             foreach (Music music in Music.musicsList)
@@ -93,10 +100,11 @@ namespace Muse_IC
                     music.Name,
                     music.Singer,
                     music.Album,
-                    "\t"+music.Duration,
+                    music.Duration,
                     imageFav,
                     imageDown,
-                    imageAdd
+                    imageAdd,
+                    goCheck
                 };
                 
 
@@ -222,31 +230,14 @@ namespace Muse_IC
 
         private void PlayThisMusic_Click(object sender, EventArgs e)
         {
-            string musicname = MusicFound.SelectedRows[0].Cells[1].Value.ToString();
+            string musicname = MusicFound.SelectedRows[0].Cells[0].Value.ToString();
             app.Musics = Music.musicsList;
             app.Play(musicname);
         }
 
     
 
-        private void ClearFavoriteMusic()
-        {
-            List<Control> controls = new List<Control>();
-            panels = new List<Panel>();
-            foreach (Control control in FindMusicPanel.Controls)
-            {
-                if (control.Name.StartsWith("IconPanel"))
-                {
-                    controls.Add(control);
-                }
-            }
-            foreach (Control cont in controls)
-            {
-                FindMusicPanel.Controls.Remove(cont);
-            }
-            FindMusicPanel.Refresh();
-            lastpanel = null;
-        }
+       
         private void CancelBtn_Click(object sender, EventArgs e)
         {
             AddPanel.Visible = false;
@@ -259,7 +250,6 @@ namespace Muse_IC
                 MessageBox.Show("No music selected!");
                 return;
             }
-
             foreach (PlayList playList in app.User.myPlaylist)
             {
                 if (playList.PlaylistName.Equals(ListBox.SelectedItem.ToString()))
@@ -293,12 +283,16 @@ namespace Muse_IC
                 if (MusicFound.CurrentRow.Cells[0].Value.ToString() == m.Name)
                 {
                     music = m;
+                    currentMusic = music;
                     break;
                 }
             }
 
-
-            if (MusicFound.CurrentCell.ColumnIndex == 4)
+            if (MusicFound.CurrentCell.ColumnIndex == 7)
+            {
+                app.OpenChildForm(new MusicForm(app, music));
+            }
+            else if (MusicFound.CurrentCell.ColumnIndex == 4)
             {
                 if (user.Favorite.Musics.Contains(music))
                 {
@@ -320,22 +314,51 @@ namespace Muse_IC
             }
             else if (MusicFound.CurrentCell.ColumnIndex == 6)
             {
-                MessageBox.Show("Adding");
-                ListBox.Visible = true;
-                ListBox.Enabled = true;
-                ListBox.Show();
+                AddPanel.Visible = true;
             }
             else
             {
                 if (e.RowIndex > 0)
                 {
-                    string musicname = MusicFound.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    string musicname = MusicFound.Rows[e.RowIndex].Cells[0].Value.ToString();
                     app.Musics = musicFoundPlay;
                     app.Play(musicname);
                 }
             }
             
             
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (PlayListNameBox.Text.Trim().Length < 1)
+            {
+                MessageBox.Show("Playlist name can't be empty!");
+                return;
+            }
+            PlayList playList = new PlayList(PlayListNameBox.Text);
+
+            playList.Image = Properties.Resources.Playlist;
+            app.User.myPlaylist.Add(playList);
+            PlayListNameBox.Text = "";
+            NewPlaylistPanel.Visible = false;
+            ListBox.Items.Add(playList.PlaylistName);
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            NewPlaylistPanel.Visible = false;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            NewPlaylistPanel.BringToFront();
+            NewPlaylistPanel.Visible = true;
         }
     }
 }

@@ -26,6 +26,8 @@ namespace Muse_IC
             playlistName = playName;
             musics = new List<Music>();
             Comments = new List<Comment>();
+            image = Image.FromFile("..\\..\\Resources\\Playlist.jpg");
+
         }
        
         public Image Image { get => image; set => image = value; }

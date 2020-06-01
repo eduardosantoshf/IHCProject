@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,86 +15,64 @@ namespace Muse_IC
     public partial class PlayListForm : Form,MyChildForm
     {
         private App app;
+        private List<PictureBox> listOfPictures = new List<PictureBox>();
         public PlayListForm(App app)
         {
             this.app = app;
             InitializeComponent();
-            NewPlaylistPanel.BringToFront();
-            toolTip1.InitialDelay = 100;
-            InitPlayLists();
-        }
-
-        private PictureBox lastBox=null;
-        private void InitPlayLists()
-        {
-            List<PlayList> playLists = app.User.myPlaylist;
-            
-            for (int i = 0; i < playLists.Count; i++)
+            for (int i = 1; i < 8; i++)
             {
-
-                if (lastBox == null)
-                {
-                    lastBox = ControlExtensions.Clone(PictureBoxExemplo);
-                    lastBox.Name = playLists[i].PlaylistName;
-                    lastBox.Cursor = Cursors.Hand;
-                    lastBox.Image = playLists[i].Image;
-                    lastBox.SizeMode = PictureBoxSizeMode.StretchImage;
-                    lastBox.Visible = true;
-                    lastBox.Size = new Size(125, 111);
-                    lastBox.MouseHover += new EventHandler(this.PlayListToolTip);
-                    lastBox.MouseClick += new MouseEventHandler(PlayList_Music);
-                    PlayListPanel.Controls.Add(lastBox);
-                    PlayListPanel.Refresh();
-                }
-                else
-                {
-                    lastBox = ControlExtensions.Clone(lastBox);
-                    lastBox.Image = playLists[i].Image;
-                    lastBox.Name = playLists[i].PlaylistName;
-                    if (lastBox.Location.X > 498)
-                    {
-                        lastBox.Location = new Point(46, lastBox.Location.Y + 134);
-                    }
-                    else
-                    {
-                        lastBox.Location = new Point(lastBox.Location.X + 210, lastBox.Location.Y);
-                    }
-                    lastBox.Visible = true;
-                    lastBox.MouseHover += new EventHandler(this.PlayListToolTip);
-                    lastBox.MouseClick += new MouseEventHandler(PlayList_Music);
-                    PlayListPanel.Controls.Add(lastBox);
-                    PlayListPanel.Refresh();
-                }
-
+                listOfPictures.Add((PictureBox)Controls.Find("Playlist" + i, true)[0]);
             }
 
-            IconPictureBox iconPictureBox = new IconPictureBox();
-            iconPictureBox.IconChar = IconChar.PlusCircle;
-            if (lastBox != null)
-            {
-                if (lastBox.Location.X > 498)
-                {
-                    iconPictureBox.Location = new Point(46, lastBox.Location.Y + 134);
-                }
-                else
-                {
+            
+            NewPlaylistPanel.BringToFront();
+            toolTip1.InitialDelay = 100;
+            PlaylistAdd.MouseHover += new EventHandler(AddToolTip);
+            InitPlayLists();
+            
+        }
 
-                    iconPictureBox.Location = new Point(lastBox.Location.X + 210, lastBox.Location.Y);
-                }
-                iconPictureBox.Size = lastBox.Size;
+        private void InitPlayLists()
+        {
+            PlaylistAdd.Visible = false;
+            List<PlayList> playLists = app.User.myPlaylist;
+            for(int i=0; i < 7; i++)
+            {
+                if (playLists.Count - 1 < i)
+                    break;
+                listOfPictures[i].SizeMode = PictureBoxSizeMode.Zoom;
+                listOfPictures[i].Image = playLists[i].Image;
+                listOfPictures[i].Cursor = Cursors.Hand;
+                listOfPictures[i].Visible = true;
+                listOfPictures[i].Name = playLists[i].PlaylistName;
+                listOfPictures[i].MouseHover += new EventHandler(PlayListToolTip);
+                listOfPictures[i].MouseClick += new MouseEventHandler(PlayList_Music);
+                PlayListPanel.Controls.Add(listOfPictures[i]);
+                PlayListPanel.Refresh();
+            }
+            if (playLists.Count >= 7)
+            {
+                
+                PlaylistAdd.Visible = true;
+                MessageBox.Show("Can't Add More");
             }
             else
             {
-                iconPictureBox.Location = PictureBoxExemplo.Location;
-                iconPictureBox.Size = PictureBoxExemplo.Size;
+                listOfPictures[playLists.Count].SizeMode = PictureBoxSizeMode.Zoom;
+                listOfPictures[playLists.Count].Image = Image.FromFile("..\\..\\Resources\\Add.png");
+                listOfPictures[playLists.Count].Cursor = Cursors.Hand;
+                listOfPictures[playLists.Count].Visible = true;
+                listOfPictures[playLists.Count].MouseHover += new EventHandler(AddToolTip);
+                listOfPictures[playLists.Count].MouseClick += new MouseEventHandler(AddNewPlayList);
+                PlayListPanel.Controls.Add(listOfPictures[playLists.Count]);
+                PlayListPanel.Refresh();
+                
             }
+                
+            
 
-            iconPictureBox.Cursor = Cursors.Hand;
-            iconPictureBox.Visible = true;
-            iconPictureBox.MouseHover += new EventHandler(AddToolTip);
-            iconPictureBox.MouseClick += new MouseEventHandler(AddNewPlayList);
-            PlayListPanel.Controls.Add(iconPictureBox);
-            PlayListPanel.Refresh();
+
 
         }
 
@@ -115,15 +94,14 @@ namespace Muse_IC
 
         private void AddToolTip(object sender, EventArgs e)
         {
-            IconPictureBox pb = (IconPictureBox)sender;
-            toolTip1.Show("Add new Playlist", pb);
+            toolTip1.Show("Add new Playlist", PlaylistAdd);
         }
 
         private void CreateNewPlayList_Click(object sender, EventArgs e)
         {
             if (PlayListNameBox.Text.Trim().Length < 1)
             {
-                MessageBox.Show("Playlist name cant be empty!");
+                MessageBox.Show("Playlist name can't be empty!");
                 return;
             }
             PlayList playList = new PlayList(PlayListNameBox.Text);
@@ -132,7 +110,6 @@ namespace Muse_IC
             app.User.myPlaylist.Add(playList);
             PlayListNameBox.Text = "";
             NewPlaylistPanel.Visible = false;
-            lastBox = null;
             ClearPlayListPanel();
             InitPlayLists();
         }
@@ -165,6 +142,21 @@ namespace Muse_IC
 
         public void InitUserInfo()
         {
+        }
+
+        private void Playlist6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Playlist8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void NewPlaylistPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

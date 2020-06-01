@@ -29,6 +29,14 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.panelAddAlbum = new System.Windows.Forms.Panel();
+            this.CancelAlbum = new System.Windows.Forms.Button();
+            this.Create = new System.Windows.Forms.Button();
+            this.NewAlbum = new System.Windows.Forms.Label();
+            this.NewAlbumName = new System.Windows.Forms.TextBox();
+            this.label14 = new System.Windows.Forms.Label();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.label11 = new System.Windows.Forms.Label();
             this.panelAddSeries = new System.Windows.Forms.Panel();
             this.CancelSeries = new System.Windows.Forms.Button();
             this.CreateSeries = new System.Windows.Forms.Button();
@@ -36,17 +44,9 @@
             this.newSeriesName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.Add = new System.Windows.Forms.Button();
-            this.panelAddAlbum = new System.Windows.Forms.Panel();
-            this.CancelAlbum = new System.Windows.Forms.Button();
-            this.Create = new System.Windows.Forms.Button();
-            this.NewAlbum = new System.Windows.Forms.Label();
-            this.NewAlbumName = new System.Windows.Forms.TextBox();
-            this.label14 = new System.Windows.Forms.Label();
+            this.UploadBtn = new System.Windows.Forms.Button();
             this.TagsBox = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.UploadBtn = new System.Windows.Forms.Button();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.MusicOrPodcastIcon = new FontAwesome.Sharp.IconPictureBox();
@@ -60,13 +60,16 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             this.MusicNameBox = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.CoverPanel = new System.Windows.Forms.Panel();
             this.CoverPicture = new System.Windows.Forms.PictureBox();
             this.AddMusicPanel = new System.Windows.Forms.Panel();
             this.AddMusicIcon = new FontAwesome.Sharp.IconPictureBox();
             this.panel1.SuspendLayout();
-            this.panelAddSeries.SuspendLayout();
             this.panelAddAlbum.SuspendLayout();
+            this.panel3.SuspendLayout();
+            this.panelAddSeries.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MusicOrPodcastIcon)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PrivateIcon)).BeginInit();
             this.panel2.SuspendLayout();
@@ -78,27 +81,10 @@
             // 
             // panel1
             // 
-            this.panel1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.panel1.Controls.Add(this.panelAddSeries);
-            this.panel1.Controls.Add(this.Add);
-            this.panel1.Controls.Add(this.panelAddAlbum);
-            this.panel1.Controls.Add(this.TagsBox);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Controls.Add(this.UploadBtn);
+            this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(89)))), ((int)(((byte)(100)))));
+            this.panel1.Controls.Add(this.panel3);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.MusicOrPodcastIcon);
-            this.panel1.Controls.Add(this.DescriptionBox);
-            this.panel1.Controls.Add(this.PrivateLabel);
-            this.panel1.Controls.Add(this.PrivateIcon);
-            this.panel1.Controls.Add(this.AlbumsBox);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.AlbumsOrSeries);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.panel2);
-            this.panel1.Controls.Add(this.MusicNameBox);
             this.panel1.Controls.Add(this.CoverPanel);
             this.panel1.Controls.Add(this.AddMusicPanel);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -107,89 +93,16 @@
             this.panel1.Size = new System.Drawing.Size(1079, 695);
             this.panel1.TabIndex = 0;
             // 
-            // panelAddSeries
-            // 
-            this.panelAddSeries.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panelAddSeries.Controls.Add(this.CancelSeries);
-            this.panelAddSeries.Controls.Add(this.CreateSeries);
-            this.panelAddSeries.Controls.Add(this.label10);
-            this.panelAddSeries.Controls.Add(this.newSeriesName);
-            this.panelAddSeries.Controls.Add(this.label4);
-            this.panelAddSeries.Location = new System.Drawing.Point(98, 411);
-            this.panelAddSeries.Name = "panelAddSeries";
-            this.panelAddSeries.Size = new System.Drawing.Size(900, 214);
-            this.panelAddSeries.TabIndex = 47;
-            this.panelAddSeries.Visible = false;
-            // 
-            // CancelSeries
-            // 
-            this.CancelSeries.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CancelSeries.Location = new System.Drawing.Point(688, 167);
-            this.CancelSeries.Name = "CancelSeries";
-            this.CancelSeries.Size = new System.Drawing.Size(101, 30);
-            this.CancelSeries.TabIndex = 52;
-            this.CancelSeries.Text = "Create";
-            this.CancelSeries.UseVisualStyleBackColor = true;
-            this.CancelSeries.Click += new System.EventHandler(this.CancelSeries_Click);
-            // 
-            // CreateSeries
-            // 
-            this.CreateSeries.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.CreateSeries.Location = new System.Drawing.Point(100, 167);
-            this.CreateSeries.Name = "CreateSeries";
-            this.CreateSeries.Size = new System.Drawing.Size(101, 30);
-            this.CreateSeries.TabIndex = 51;
-            this.CreateSeries.Text = "Create";
-            this.CreateSeries.UseVisualStyleBackColor = true;
-            this.CreateSeries.Click += new System.EventHandler(this.CreateSeries_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label10.Location = new System.Drawing.Point(12, 38);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(139, 29);
-            this.label10.TabIndex = 49;
-            this.label10.Text = "New Series";
-            // 
-            // newSeriesName
-            // 
-            this.newSeriesName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.newSeriesName.Location = new System.Drawing.Point(100, 112);
-            this.newSeriesName.Name = "newSeriesName";
-            this.newSeriesName.Size = new System.Drawing.Size(689, 30);
-            this.newSeriesName.TabIndex = 48;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label4.Location = new System.Drawing.Point(10, 111);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(84, 29);
-            this.label4.TabIndex = 8;
-            this.label4.Text = "Name:";
-            // 
-            // Add
-            // 
-            this.Add.Location = new System.Drawing.Point(468, 344);
-            this.Add.Name = "Add";
-            this.Add.Size = new System.Drawing.Size(75, 33);
-            this.Add.TabIndex = 52;
-            this.Add.Text = "Add";
-            this.Add.UseVisualStyleBackColor = true;
-            this.Add.Click += new System.EventHandler(this.Add_Click);
-            // 
             // panelAddAlbum
             // 
-            this.panelAddAlbum.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelAddAlbum.BackColor = System.Drawing.Color.CadetBlue;
+            this.panelAddAlbum.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panelAddAlbum.Controls.Add(this.CancelAlbum);
             this.panelAddAlbum.Controls.Add(this.Create);
             this.panelAddAlbum.Controls.Add(this.NewAlbum);
             this.panelAddAlbum.Controls.Add(this.NewAlbumName);
             this.panelAddAlbum.Controls.Add(this.label14);
-            this.panelAddAlbum.Location = new System.Drawing.Point(98, 85);
+            this.panelAddAlbum.Location = new System.Drawing.Point(36, 3);
             this.panelAddAlbum.Name = "panelAddAlbum";
             this.panelAddAlbum.Size = new System.Drawing.Size(883, 214);
             this.panelAddAlbum.TabIndex = 52;
@@ -197,24 +110,30 @@
             // 
             // CancelAlbum
             // 
+            this.CancelAlbum.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(108)))), ((int)(((byte)(134)))));
+            this.CancelAlbum.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CancelAlbum.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.CancelAlbum.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.CancelAlbum.Location = new System.Drawing.Point(687, 163);
             this.CancelAlbum.Name = "CancelAlbum";
             this.CancelAlbum.Size = new System.Drawing.Size(101, 30);
             this.CancelAlbum.TabIndex = 51;
             this.CancelAlbum.Text = "Cancel";
-            this.CancelAlbum.UseVisualStyleBackColor = true;
+            this.CancelAlbum.UseVisualStyleBackColor = false;
             this.CancelAlbum.Click += new System.EventHandler(this.CancelAlbum_Click);
             // 
             // Create
             // 
+            this.Create.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(108)))), ((int)(((byte)(134)))));
+            this.Create.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.Create.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
             this.Create.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.Create.Location = new System.Drawing.Point(112, 163);
             this.Create.Name = "Create";
             this.Create.Size = new System.Drawing.Size(101, 30);
             this.Create.TabIndex = 50;
             this.Create.Text = "Create";
-            this.Create.UseVisualStyleBackColor = true;
+            this.Create.UseVisualStyleBackColor = false;
             this.Create.Click += new System.EventHandler(this.button1_Click);
             // 
             // NewAlbum
@@ -230,7 +149,7 @@
             // NewAlbumName
             // 
             this.NewAlbumName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.NewAlbumName.Location = new System.Drawing.Point(100, 112);
+            this.NewAlbumName.Location = new System.Drawing.Point(103, 97);
             this.NewAlbumName.Name = "NewAlbumName";
             this.NewAlbumName.Size = new System.Drawing.Size(689, 30);
             this.NewAlbumName.TabIndex = 48;
@@ -239,16 +158,149 @@
             // 
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label14.Location = new System.Drawing.Point(10, 111);
+            this.label14.Location = new System.Drawing.Point(13, 96);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(84, 29);
             this.label14.TabIndex = 8;
             this.label14.Text = "Name:";
             // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(103)))), ((int)(((byte)(134)))), ((int)(((byte)(150)))));
+            this.panel3.Controls.Add(this.panelAddAlbum);
+            this.panel3.Controls.Add(this.label11);
+            this.panel3.Controls.Add(this.panelAddSeries);
+            this.panel3.Controls.Add(this.Add);
+            this.panel3.Controls.Add(this.UploadBtn);
+            this.panel3.Controls.Add(this.TagsBox);
+            this.panel3.Controls.Add(this.label2);
+            this.panel3.Controls.Add(this.label7);
+            this.panel3.Controls.Add(this.label6);
+            this.panel3.Controls.Add(this.MusicOrPodcastIcon);
+            this.panel3.Controls.Add(this.DescriptionBox);
+            this.panel3.Controls.Add(this.PrivateLabel);
+            this.panel3.Controls.Add(this.PrivateIcon);
+            this.panel3.Controls.Add(this.AlbumsBox);
+            this.panel3.Controls.Add(this.label5);
+            this.panel3.Controls.Add(this.AlbumsOrSeries);
+            this.panel3.Controls.Add(this.label3);
+            this.panel3.Controls.Add(this.panel2);
+            this.panel3.Controls.Add(this.MusicNameBox);
+            this.panel3.Location = new System.Drawing.Point(82, 160);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(953, 493);
+            this.panel3.TabIndex = 54;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label11.Location = new System.Drawing.Point(530, 183);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(72, 25);
+            this.label11.TabIndex = 53;
+            this.label11.Text = "Private";
+            // 
+            // panelAddSeries
+            // 
+            this.panelAddSeries.BackColor = System.Drawing.Color.CadetBlue;
+            this.panelAddSeries.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.panelAddSeries.Controls.Add(this.CancelSeries);
+            this.panelAddSeries.Controls.Add(this.CreateSeries);
+            this.panelAddSeries.Controls.Add(this.label10);
+            this.panelAddSeries.Controls.Add(this.newSeriesName);
+            this.panelAddSeries.Controls.Add(this.label4);
+            this.panelAddSeries.Location = new System.Drawing.Point(36, 245);
+            this.panelAddSeries.Name = "panelAddSeries";
+            this.panelAddSeries.Size = new System.Drawing.Size(883, 221);
+            this.panelAddSeries.TabIndex = 47;
+            this.panelAddSeries.Visible = false;
+            // 
+            // CancelSeries
+            // 
+            this.CancelSeries.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(108)))), ((int)(((byte)(134)))));
+            this.CancelSeries.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CancelSeries.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.CancelSeries.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.CancelSeries.Location = new System.Drawing.Point(688, 167);
+            this.CancelSeries.Name = "CancelSeries";
+            this.CancelSeries.Size = new System.Drawing.Size(101, 30);
+            this.CancelSeries.TabIndex = 52;
+            this.CancelSeries.Text = "Create";
+            this.CancelSeries.UseVisualStyleBackColor = false;
+            this.CancelSeries.Click += new System.EventHandler(this.CancelSeries_Click);
+            // 
+            // CreateSeries
+            // 
+            this.CreateSeries.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(108)))), ((int)(((byte)(134)))));
+            this.CreateSeries.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.CreateSeries.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.CreateSeries.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.CreateSeries.Location = new System.Drawing.Point(100, 167);
+            this.CreateSeries.Name = "CreateSeries";
+            this.CreateSeries.Size = new System.Drawing.Size(101, 30);
+            this.CreateSeries.TabIndex = 51;
+            this.CreateSeries.Text = "Create";
+            this.CreateSeries.UseVisualStyleBackColor = false;
+            this.CreateSeries.Click += new System.EventHandler(this.CreateSeries_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label10.Location = new System.Drawing.Point(12, 38);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(139, 29);
+            this.label10.TabIndex = 49;
+            this.label10.Text = "New Series";
+            // 
+            // newSeriesName
+            // 
+            this.newSeriesName.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.newSeriesName.Location = new System.Drawing.Point(103, 97);
+            this.newSeriesName.Name = "newSeriesName";
+            this.newSeriesName.Size = new System.Drawing.Size(689, 30);
+            this.newSeriesName.TabIndex = 48;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label4.Location = new System.Drawing.Point(13, 96);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(84, 29);
+            this.label4.TabIndex = 8;
+            this.label4.Text = "Name:";
+            // 
+            // Add
+            // 
+            this.Add.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(108)))), ((int)(((byte)(134)))));
+            this.Add.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.Add.Location = new System.Drawing.Point(402, 180);
+            this.Add.Name = "Add";
+            this.Add.Size = new System.Drawing.Size(75, 33);
+            this.Add.TabIndex = 52;
+            this.Add.Text = "Add";
+            this.Add.UseVisualStyleBackColor = false;
+            this.Add.Click += new System.EventHandler(this.Add_Click);
+            // 
+            // UploadBtn
+            // 
+            this.UploadBtn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(108)))), ((int)(((byte)(134)))));
+            this.UploadBtn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.UploadBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.UploadBtn.Location = new System.Drawing.Point(757, 430);
+            this.UploadBtn.Name = "UploadBtn";
+            this.UploadBtn.Size = new System.Drawing.Size(129, 45);
+            this.UploadBtn.TabIndex = 44;
+            this.UploadBtn.Text = "Upload";
+            this.UploadBtn.UseVisualStyleBackColor = false;
+            this.UploadBtn.Click += new System.EventHandler(this.UploadBtn_Click);
+            // 
             // TagsBox
             // 
             this.TagsBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.TagsBox.Location = new System.Drawing.Point(263, 548);
+            this.TagsBox.Location = new System.Drawing.Point(197, 384);
             this.TagsBox.Name = "TagsBox";
             this.TagsBox.Size = new System.Drawing.Size(689, 30);
             this.TagsBox.TabIndex = 46;
@@ -257,48 +309,17 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label2.Location = new System.Drawing.Point(142, 549);
+            this.label2.Location = new System.Drawing.Point(76, 385);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(74, 29);
             this.label2.TabIndex = 45;
             this.label2.Text = "Tags:";
             // 
-            // UploadBtn
-            // 
-            this.UploadBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.UploadBtn.Location = new System.Drawing.Point(823, 604);
-            this.UploadBtn.Name = "UploadBtn";
-            this.UploadBtn.Size = new System.Drawing.Size(129, 45);
-            this.UploadBtn.TabIndex = 44;
-            this.UploadBtn.Text = "Upload";
-            this.UploadBtn.UseVisualStyleBackColor = true;
-            this.UploadBtn.Click += new System.EventHandler(this.UploadBtn_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label9.Location = new System.Drawing.Point(577, 135);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(249, 20);
-            this.label9.TabIndex = 43;
-            this.label9.Text = "(Click here to add cover picture)";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label8.Location = new System.Drawing.Point(299, 135);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(197, 20);
-            this.label8.TabIndex = 42;
-            this.label8.Text = "(Click here to add music)";
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label7.Location = new System.Drawing.Point(548, 196);
+            this.label7.Location = new System.Drawing.Point(521, 32);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(83, 25);
             this.label7.TabIndex = 41;
@@ -308,7 +329,7 @@
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label6.Location = new System.Drawing.Point(719, 196);
+            this.label6.Location = new System.Drawing.Point(711, 32);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(64, 25);
             this.label6.TabIndex = 40;
@@ -316,15 +337,15 @@
             // 
             // MusicOrPodcastIcon
             // 
-            this.MusicOrPodcastIcon.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.MusicOrPodcastIcon.BackColor = System.Drawing.Color.Transparent;
             this.MusicOrPodcastIcon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.MusicOrPodcastIcon.ForeColor = System.Drawing.Color.LimeGreen;
             this.MusicOrPodcastIcon.IconChar = FontAwesome.Sharp.IconChar.ToggleOn;
             this.MusicOrPodcastIcon.IconColor = System.Drawing.Color.LimeGreen;
             this.MusicOrPodcastIcon.IconSize = 75;
-            this.MusicOrPodcastIcon.Location = new System.Drawing.Point(615, 175);
+            this.MusicOrPodcastIcon.Location = new System.Drawing.Point(605, 11);
             this.MusicOrPodcastIcon.Name = "MusicOrPodcastIcon";
-            this.MusicOrPodcastIcon.Size = new System.Drawing.Size(122, 75);
+            this.MusicOrPodcastIcon.Size = new System.Drawing.Size(105, 75);
             this.MusicOrPodcastIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.MusicOrPodcastIcon.TabIndex = 39;
             this.MusicOrPodcastIcon.TabStop = false;
@@ -333,7 +354,7 @@
             // DescriptionBox
             // 
             this.DescriptionBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.DescriptionBox.Location = new System.Drawing.Point(263, 422);
+            this.DescriptionBox.Location = new System.Drawing.Point(197, 258);
             this.DescriptionBox.Name = "DescriptionBox";
             this.DescriptionBox.Size = new System.Drawing.Size(689, 84);
             this.DescriptionBox.TabIndex = 38;
@@ -343,23 +364,23 @@
             // 
             this.PrivateLabel.AutoSize = true;
             this.PrivateLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PrivateLabel.Location = new System.Drawing.Point(719, 347);
+            this.PrivateLabel.Location = new System.Drawing.Point(717, 183);
             this.PrivateLabel.Name = "PrivateLabel";
-            this.PrivateLabel.Size = new System.Drawing.Size(72, 25);
+            this.PrivateLabel.Size = new System.Drawing.Size(65, 25);
             this.PrivateLabel.TabIndex = 37;
-            this.PrivateLabel.Text = "Private";
+            this.PrivateLabel.Text = "Public";
             // 
             // PrivateIcon
             // 
-            this.PrivateIcon.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.PrivateIcon.BackColor = System.Drawing.Color.Transparent;
             this.PrivateIcon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.PrivateIcon.ForeColor = System.Drawing.Color.LimeGreen;
             this.PrivateIcon.IconChar = FontAwesome.Sharp.IconChar.ToggleOn;
             this.PrivateIcon.IconColor = System.Drawing.Color.LimeGreen;
             this.PrivateIcon.IconSize = 75;
-            this.PrivateIcon.Location = new System.Drawing.Point(615, 328);
+            this.PrivateIcon.Location = new System.Drawing.Point(609, 164);
             this.PrivateIcon.Name = "PrivateIcon";
-            this.PrivateIcon.Size = new System.Drawing.Size(122, 75);
+            this.PrivateIcon.Size = new System.Drawing.Size(93, 75);
             this.PrivateIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.PrivateIcon.TabIndex = 36;
             this.PrivateIcon.TabStop = false;
@@ -369,7 +390,7 @@
             // 
             this.AlbumsBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
             this.AlbumsBox.FormattingEnabled = true;
-            this.AlbumsBox.Location = new System.Drawing.Point(273, 344);
+            this.AlbumsBox.Location = new System.Drawing.Point(207, 180);
             this.AlbumsBox.Name = "AlbumsBox";
             this.AlbumsBox.Size = new System.Drawing.Size(178, 33);
             this.AlbumsBox.TabIndex = 8;
@@ -378,7 +399,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label5.Location = new System.Drawing.Point(157, 270);
+            this.label5.Location = new System.Drawing.Point(91, 106);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(84, 29);
             this.label5.TabIndex = 7;
@@ -388,7 +409,7 @@
             // 
             this.AlbumsOrSeries.AutoSize = true;
             this.AlbumsOrSeries.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.AlbumsOrSeries.Location = new System.Drawing.Point(152, 347);
+            this.AlbumsOrSeries.Location = new System.Drawing.Point(86, 183);
             this.AlbumsOrSeries.Name = "AlbumsOrSeries";
             this.AlbumsOrSeries.Size = new System.Drawing.Size(99, 29);
             this.AlbumsOrSeries.TabIndex = 6;
@@ -398,7 +419,7 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.label3.Location = new System.Drawing.Point(110, 411);
+            this.label3.Location = new System.Drawing.Point(44, 247);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(141, 29);
             this.label3.TabIndex = 5;
@@ -406,9 +427,10 @@
             // 
             // panel2
             // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(105)))), ((int)(((byte)(108)))), ((int)(((byte)(134)))));
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.panel2.Controls.Add(this.label1);
-            this.panel2.Location = new System.Drawing.Point(136, 175);
+            this.panel2.Location = new System.Drawing.Point(19, 11);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(105, 46);
             this.panel2.TabIndex = 3;
@@ -426,10 +448,30 @@
             // MusicNameBox
             // 
             this.MusicNameBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.MusicNameBox.Location = new System.Drawing.Point(273, 269);
+            this.MusicNameBox.Location = new System.Drawing.Point(207, 105);
             this.MusicNameBox.Name = "MusicNameBox";
             this.MusicNameBox.Size = new System.Drawing.Size(689, 30);
             this.MusicNameBox.TabIndex = 2;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label9.Location = new System.Drawing.Point(581, 135);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(249, 20);
+            this.label9.TabIndex = 43;
+            this.label9.Text = "(Click here to add cover picture)";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
+            this.label8.Location = new System.Drawing.Point(299, 135);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(197, 20);
+            this.label8.TabIndex = 42;
+            this.label8.Text = "(Click here to add music)";
             // 
             // CoverPanel
             // 
@@ -447,6 +489,8 @@
             // 
             // CoverPicture
             // 
+            this.CoverPicture.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.CoverPicture.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.CoverPicture.Dock = System.Windows.Forms.DockStyle.Fill;
             this.CoverPicture.Image = global::Muse_IC.Properties.Resources.Image;
             this.CoverPicture.Location = new System.Drawing.Point(0, 0);
@@ -475,7 +519,8 @@
             // 
             // AddMusicIcon
             // 
-            this.AddMusicIcon.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.AddMusicIcon.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.AddMusicIcon.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.AddMusicIcon.Cursor = System.Windows.Forms.Cursors.Hand;
             this.AddMusicIcon.Dock = System.Windows.Forms.DockStyle.Fill;
             this.AddMusicIcon.ForeColor = System.Drawing.SystemColors.ControlText;
@@ -503,10 +548,12 @@
             this.Text = "UpdateForm";
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            this.panelAddSeries.ResumeLayout(false);
-            this.panelAddSeries.PerformLayout();
             this.panelAddAlbum.ResumeLayout(false);
             this.panelAddAlbum.PerformLayout();
+            this.panel3.ResumeLayout(false);
+            this.panel3.PerformLayout();
+            this.panelAddSeries.ResumeLayout(false);
+            this.panelAddSeries.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MusicOrPodcastIcon)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.PrivateIcon)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -557,5 +604,7 @@
         private System.Windows.Forms.Button Add;
         private System.Windows.Forms.Button CancelSeries;
         private System.Windows.Forms.Button CancelAlbum;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Panel panel3;
     }
 }
