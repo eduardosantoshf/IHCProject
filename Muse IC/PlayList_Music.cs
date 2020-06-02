@@ -1,0 +1,653 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using FontAwesome.Sharp;
+
+
+namespace Muse_IC
+{
+    public partial class PlayList_Music : Form,MyChildForm
+    {
+        private List<Panel> panels;
+        private User user;
+        private App app;
+        private PlayList playList;
+        private string playlistname;
+        private Music currentMusic;
+        private List<Panel> comments = new List<Panel>();
+        public PlayList_Music(string playlistname, App app)
+        {
+            this.app = app;
+            this.playlistname = playlistname;
+            panels = new List<Panel>();
+            InitializeComponent();
+            MusicPanel.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            MusicPanel.RowTemplate.Height = 30;
+            for (int i = 0; i < MusicPanel.ColumnCount; i++)
+            {
+                MusicPanel.Columns[i].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+               
+            }
+
+            InitUserInfo();
+        }
+        public void InitUserInfo()
+        {
+            user = app.User;
+            MusicPanel.Rows.Clear();
+            if (user.email.Equals("LocalData"))
+            {
+                UserPanel.Visible = false;
+                LoginPanel.Visible = true;
+                LoginPanel.Location = UserPanel.Location;
+                Private.Visible = false;
+                PrivateLabel.Visible = false;
+                PublishPanel.Visible = false;
+                foreach (PlayList Findplay in PlayList.playLists)
+                {
+                    if (Findplay.PlaylistName.Equals(playlistname))
+                    {
+                        playList = Findplay;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                foreach (PlayList FindplayList in app.User.myPlaylist)
+                {
+                    if (FindplayList.PlaylistName.Equals(playlistname))
+                    {
+                        playList = FindplayList;
+                        break;
+                    }
+                }
+                UserPanel.Visible = true;
+                LoginPanel.Visible = false;
+                Private.Visible = true;
+                PrivateLabel.Visible = true;
+                PublishPanel.Visible = true;
+                AuthorName.Text = user.Username;
+                StringBuilder sb = new StringBuilder();
+                foreach (string str in user.Tags)
+                {
+                    sb.Append("#").Append(str).Append(" ");
+                }
+                Tag.Text = sb.ToString();
+                UserPicture.Image = user.Picture;
+                CommentsLoginPanel.Visible = false;
+            }
+
+            InitPlayListInfo();
+            InitListView();
+        }
+
+        private void InitPlayListInfo()
+        {
+            PlayListPicture.Image = playList.Image;
+            PlayListName.Text = playList.PlaylistName;
+            MusicNumber.Text = playList.Musics.Count+"";
+            ViewsNumber.Text = playList.Views + "";
+            Private.IconChar = playList.IsPrivate ? IconChar.ToggleOff : IconChar.ToggleOn ;
+        }
+
+        int count = 1;
+      
+        private void InitListView()
+        {
+            count = 1;
+            MusicPanel.CellBorderStyle = DataGridViewCellBorderStyle.None;
+            MusicPanel.RowTemplate.Height = 50;
+            ClearPlayListPanel();
+            ListBox.Items.Clear();
+            
+           
+            DataGridViewImageColumn imgFav = new DataGridViewImageColumn();
+            Image imageFav=getFav(Color.Silver) ;
+            
+            imgFav.ImageLayout = DataGridViewImageCellLayout.Zoom;
+           
+            imgFav.Name = "img";
+            imgFav.Width = 35;
+            imgFav.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            MusicPanel.Columns.Add(imgFav);
+
+            DataGridViewImageColumn imgAdd = new DataGridViewImageColumn();
+            Image imageAdd = Image.FromFile(@"..\\..\\Resources\\Add.png");
+            imgAdd.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgAdd.Width = 35;
+            imgAdd.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgAdd.Name = "img";
+            MusicPanel.Columns.Add(imgAdd);
+
+            DataGridViewImageColumn imgDown = new DataGridViewImageColumn();
+            Image imageDown = Image.FromFile(@"..\\..\\Resources\\Down.png");
+            imgDown.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgDown.Width = 35;
+            imgDown.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgDown.Name = "img";
+            MusicPanel.Columns.Add(imgDown);
+
+            DataGridViewImageColumn imgGo = new DataGridViewImageColumn();
+            Image goCheck = Image.FromFile(@"..\\..\\Resources\\GoCheck.png");
+   
+            imgGo.ImageLayout = DataGridViewImageCellLayout.Zoom;
+            imgGo.Width = 35;
+            imgGo.AutoSizeMode = DataGridViewAutoSizeColumnMode.None;
+            imgGo.Name = "img";
+            imgGo.HeaderText = "";
+            MusicPanel.Columns.Add(imgGo);
+
+            foreach (Music music in playList.Musics)
+            {
+                if (app.User.Favorite.Musics.Contains(music))
+                {
+                    imageFav = getFav(Color.Red);
+                }
+                else
+                {
+                    imageFav = getFav(Color.Silver);
+                }
+
+                object[] row =
+                {
+                    music.Name,
+                    music.Singer,
+                    music.Album,
+                    music.Duration,
+                    imageFav,
+                    imageDown,
+                    imageAdd,
+                    goCheck
+                };
+                
+                MusicPanel.Rows.Add(row);
+            }
+            ListBox.Items.Clear();
+            foreach (PlayList playList in app.User.myPlaylist)
+            {
+                if (playList.PlaylistName.Equals(PlayListName.Text))
+                    continue;
+                ListBox.Items.Add(playList.PlaylistName);
+            }
+            if (ListBox.Items.Count == 0)
+            {
+                AddBtn.Enabled = false;
+                NoInfoLabel.Visible = true;
+                button6.Visible = true;
+            }
+            else
+            {
+                AddBtn.Enabled = true;
+                NoInfoLabel.Visible = false;
+                button6.Visible = false;
+            }
+        }
+        
+
+        
+      
+        private void InitUserPictureBox(PictureBox Picture,User author)
+        {
+            
+            Picture.Image = author.Picture;
+            Picture.BackColor = Color.Transparent;
+            Picture.Cursor = Cursors.Hand;
+            Picture.ForeColor = SystemColors.ControlText;
+            Picture.Location = Friend1Picture.Location;
+            Picture.Name = "Picture" + count;
+            Picture.Size = Friend1Picture.Size;
+            Picture.SizeMode = PictureBoxSizeMode.Zoom;
+            Picture.TabIndex = 48;
+            Picture.TabStop = false;
+            count++;
+        }
+
+        private void InitLikeIcon(IconPictureBox iconPicture)
+        {
+            iconPicture.BackColor = Color.Transparent;
+            iconPicture.Cursor = Cursors.Hand;
+            iconPicture.ForeColor = SystemColors.ControlText;
+            iconPicture.IconChar = IconChar.ThumbsUp;
+            iconPicture.IconColor = SystemColors.ControlText;
+            iconPicture.IconSize = 30;
+            iconPicture.Location = LikeIcon.Location;
+            iconPicture.Name = "icon"+count;
+            iconPicture.Size = LikeIcon.Size;
+            iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
+            iconPicture.TabIndex = 48;
+            iconPicture.TabStop = false;
+ 
+        }
+
+        private void InitReplyIcon(IconPictureBox iconPicture)
+        {
+            iconPicture.BackColor = Color.Transparent;
+            iconPicture.Cursor = Cursors.Hand;
+            iconPicture.ForeColor = SystemColors.ControlText;
+            iconPicture.IconChar = IconChar.CommentDots;
+            iconPicture.IconColor = SystemColors.ControlText;
+            iconPicture.IconSize = 30;
+            iconPicture.Location = ReplayIcon.Location;
+            iconPicture.Name = "icon" + count;
+            iconPicture.Size = ReplayIcon.Size;
+            iconPicture.SizeMode = PictureBoxSizeMode.CenterImage;
+            iconPicture.TabIndex = 48;
+            iconPicture.TabStop = false;
+            count++;
+        }
+        private void GoLogin_Click(object sender, EventArgs e)
+        {
+            Login login = new Login(true);
+            login.StartPosition = FormStartPosition.CenterParent;
+            login.ShowDialog();
+
+            if (login.DialogResult == DialogResult.OK)
+            {
+                app.User = User.users[login.UserNameBox.Text];
+                InitUserInfo();
+                app.InitUserInfo();
+                CommentsLoginPanel.Visible = false;
+            }
+        }
+        private void ClearPlayListPanel()
+        {
+            List<Control> controls = new List<Control>();
+            panels = new List<Panel>();
+            foreach (Control control in PlaylistPanel.Controls)
+            {
+                if (control.Name.Equals("lastpanel_"))
+                    controls.Add(control);
+            }
+            foreach (Control cont in controls)
+            {
+                PlaylistPanel.Controls.Remove(cont);
+            }
+            PlaylistPanel.Refresh();
+           
+        }
+
+        private void ChangePanelColor(int index)
+        {
+            for (int i = 0; i < panels.Count; i++)
+            {
+                if (i == index)
+                {
+                    panels[i].BackColor = Color.FromArgb(0, 120, 215);
+                }
+                else
+                {
+                    panels[i].BackColor = Color.White;
+                }
+            }
+        }
+
+        private void FavouritesMusic_SelectionChanged(object sender, EventArgs e)
+        {
+            int index = MusicPanel.CurrentRow.Index;
+            ChangePanelColor(index);
+        }
+
+        private void FavouritesMusic_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (e.RowIndex >= 0)
+                {
+                    MusicPanel.Rows[e.RowIndex].Selected = true;
+                    ChangePanelColor(e.RowIndex);
+                    PlayListContextMenu.Show(MousePosition.X, MousePosition.Y);
+                }
+            }
+        }
+
+        private void PlayThisMusic_Click(object sender, EventArgs e)
+        {
+            string musicname = MusicPanel.SelectedRows[0].Cells[0].Value.ToString();
+            app.Musics = playList.Musics;
+            app.Play(musicname);
+        }
+        private Image getFav(Color color)
+        {
+            if (color == Color.Red)
+            {
+                Image imageFav = Image.FromFile(@"..\\..\\Resources\\HeartRed.png");
+                return imageFav;
+            }
+            else
+            {
+                Image imageFav = Image.FromFile(@"..\\..\\Resources\\HeartGrey.png");
+                return imageFav;
+            }
+        }
+
+        private void FavouritesMusic_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex == -1)
+                return;
+
+            Music music = new Music();
+            foreach (Music m in app.Musics)
+            {
+                if (MusicPanel.CurrentRow.Cells[0].Value.ToString() == m.Name)
+                {
+                    music = m;
+                    currentMusic = music;
+                    break;
+                }   
+            }
+
+
+            if (MusicPanel.CurrentCell.ColumnIndex == 7)
+            {
+                currentMusic = music;
+                app.OpenChildForm(new MusicForm(app, music));
+            }
+
+            else if(MusicPanel.CurrentCell.ColumnIndex == 4)
+            {
+                if (user.Favorite.Musics.Contains(music))
+                {
+                    user.Favorite.Musics.Remove(music);
+                    MusicPanel.CurrentCell.Value = getFav(Color.Silver);
+                    MessageBox.Show("Removed from Favorites!");
+                }
+
+
+                else
+                {
+                    user.Favorite.Musics.Add(music);
+                    MusicPanel.CurrentCell.Value = getFav(Color.Red);
+                    MessageBox.Show("Added to Favorites!");
+                }
+
+            }
+            else if (MusicPanel.CurrentCell.ColumnIndex == 5)
+            {
+                MessageBox.Show("Downloaded");
+            }
+            else if (MusicPanel.CurrentCell.ColumnIndex == 6)
+            {
+                AddPanel.Visible = true;
+                AddPanel.Enabled = true;
+                AddPanel.Show();
+            }
+            else
+            {
+                string musicname = MusicPanel.Rows[e.RowIndex].Cells[0].Value.ToString();
+                app.Musics = playList.Musics;
+                app.Play(musicname);
+            }
+
+                
+            
+        }
+
+        private void MusicBtn_Click(object sender, EventArgs e)
+        {
+            MusicPanel.Visible = true;
+            CommentsPanel.Visible = false;
+            CommentsLoginPanel.Visible = false;
+        }
+
+
+        private Panel lastComment;
+        private void InitComments()
+        {
+          foreach(Panel innerPanel in comments)
+            {
+                innerPanel.Dispose();
+                lastComment = null;
+            }
+            foreach(Comment comment in playList.Comments)
+            {
+
+                if (lastComment == null)
+                {
+                    lastComment = ControlExtensions.Clone(CommentExemple);
+                    lastComment.Visible = true;
+                    lastComment.Name = "CommentPanel" + count;
+                    lastComment.BackColor = Color.FromArgb(89, 147, 180);
+                    PictureBox pb = new PictureBox();
+                    InitUserPictureBox(pb,comment.Author);
+                    IconPictureBox icon2 = new IconPictureBox();
+                    InitLikeIcon(icon2);
+                    IconPictureBox icon3 = new IconPictureBox();
+                    InitReplyIcon(icon3);
+                    Label commentername = ControlExtensions.Clone(CommenterName);
+                    commentername.Text = comment.Author.Username +":";
+                    commentername.Visible = true;
+
+                    Label content = ControlExtensions.Clone(CommentContent);
+                    content.Text = comment.Content;
+                    content.Visible = true;
+
+                    Label date = ControlExtensions.Clone(CommentDate);
+                    date.Text = comment.Date;
+                    date.Visible = true;
+
+                    Label likes = ControlExtensions.Clone(CommentLikes);
+                    likes.Text = comment.Likes+"";
+                    likes.Visible = true;
+
+                    lastComment.Controls.Add(pb);
+                    lastComment.Controls.Add(icon2);
+                    lastComment.Controls.Add(icon3);
+                    lastComment.Controls.Add(date);
+                    lastComment.Controls.Add(likes);
+                    lastComment.Controls.Add(content);
+                    lastComment.Controls.Add(commentername);
+                    CommentsPanel.Controls.Add(lastComment);
+                    comments.Add(lastComment);
+                    lastComment.Show();
+                    CommentsPanel.Refresh();
+                }
+                else
+                {
+                    Panel panel = ControlExtensions.Clone(lastComment);
+                    panel.Name= "CommentPanel" + count;
+                    panel.Visible = true;
+                    panel.Location = new Point(panel.Location.X, panel.Location.Y + 70);
+                    panel.BackColor = Color.FromArgb(89, 147, 180);
+                    PictureBox pb = new PictureBox();
+                    InitUserPictureBox(pb,comment.Author);
+                    IconPictureBox icon2 = new IconPictureBox();
+                    InitLikeIcon(icon2);
+                    IconPictureBox icon3 = new IconPictureBox();
+                    InitReplyIcon(icon3);
+
+                    Label commentername = ControlExtensions.Clone(CommenterName);
+                    commentername.Text = comment.Author.Name + ":";
+                    commentername.Visible = true;
+
+                    Label content = ControlExtensions.Clone(CommentContent);
+                    content.Text = comment.Content;
+                    content.Visible = true;
+
+                    Label date = ControlExtensions.Clone(CommentDate);
+                    date.Text = comment.Date;
+                    date.Visible = true;
+
+                    Label likes = ControlExtensions.Clone(CommentLikes);
+                    likes.Text = comment.Likes + "";
+                    likes.Visible = true;
+
+                    panel.Controls.Add(pb);
+                    panel.Controls.Add(icon2);
+                    panel.Controls.Add(icon3);
+                    panel.Controls.Add(date);
+                    panel.Controls.Add(likes);
+                    panel.Controls.Add(content);
+                    panel.Controls.Add(commentername);
+                    CommentsPanel.Controls.Add(lastComment);
+                    panel.Show();
+                    CommentsPanel.Refresh();
+                    comments.Add(lastComment);
+                    lastComment = panel;
+                }
+                count++;
+            }
+
+        }
+        private void CommentsBtn_Click(object sender, EventArgs e)
+        {
+            
+            InitComments();
+            MusicPanel.Visible = false;
+            CommentsLoginPanel.Visible = true;
+            CommentsPanel.Visible = true;
+            if (user.email.Equals("LocalData"))
+            {
+                CommentsLoginPanel.Visible = true;
+                PublishPanel.Visible = false;
+            }
+            else
+            {
+                CommentsLoginPanel.Visible = false;
+                PublishPanel.Visible = true;
+            }
+        }
+
+        private void Publish_Click(object sender, EventArgs e)
+        {
+            if (CommentContentBox.Text.Trim().Length < 1)
+            {
+                MessageBox.Show("Comment can not be empty!");
+                return;
+            }
+            Comment comment = new Comment();
+            comment.Content = CommentContentBox.Text;
+            comment.Author = app.User;
+            CommentContentBox.Text = "";
+            comment.Date= DateTime.Now.ToLongDateString().ToString();
+            playList.Comments.Add(comment);
+            lastComment = null;
+            ClearCommentsPanel();
+            InitComments();
+        }
+
+        private void ClearCommentsPanel()
+        {
+            List<Control> controls = new List<Control>();
+            foreach (Control control in CommentsPanel.Controls)
+            {
+                if (control.Name.StartsWith("CommentPanel"))
+                {
+                    controls.Add(control);
+                }
+            }
+            foreach (Control cont in controls)
+            {
+                CommentsPanel.Controls.Remove(cont);
+            }
+            CommentsPanel.Refresh();
+        }
+        
+        
+        private void PrivateIcon_Click(object sender, EventArgs e)
+        {
+            if (Private.IconChar == IconChar.ToggleOn)
+                Private.IconChar = IconChar.ToggleOff;
+            else
+                Private.IconChar = IconChar.ToggleOn;
+        }
+
+        private void AddBtn_Click(object sender, EventArgs e)
+        {
+            if (ListBox.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("No music selected!");
+                return;
+            }
+
+            foreach (PlayList playList in app.User.myPlaylist)
+            {
+                if (playList.PlaylistName.Equals(ListBox.SelectedItem.ToString()))
+                {
+                    playList.Musics.Add(currentMusic);
+                    MessageBox.Show("Music added!");
+                    AddPanel.Visible = false;
+                    return;
+                }
+            }
+        }
+        private void ListBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (ListBox.SelectedItems.Count == 0)
+                AddBtn.Enabled = false;
+            else if (ListBox.SelectedItems.Count == 1)
+                AddBtn.Enabled = true;
+        }
+
+        private void CancelBtn_Click(object sender, EventArgs e)
+        {
+            AddPanel.Visible = false;
+        }
+
+        private void MusicPanel_Sorted(object sender, EventArgs e)
+        {
+            int index = MusicPanel.CurrentRow.Index;
+            ChangePanelColor(index);
+        }
+
+        private void MusicPanel_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void HeartIcon_Click(object sender, EventArgs e)
+        {
+            if (HeartIcon.IconColor == Color.Red)
+            {
+                HeartIcon.IconColor = Color.Silver;
+                
+                LikesNumber.Text = (int.Parse(LikesNumber.Text)-1).ToString();
+
+            }
+            else
+            {
+                HeartIcon.IconColor = Color.Red;
+                
+           
+                LikesNumber.Text = (int.Parse(LikesNumber.Text) + 1).ToString();
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            
+            NewPlaylistPanel.Visible = true;
+            NewPlaylistPanel.BringToFront();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (PlayListNameBox.Text.Trim().Length < 1)
+            {
+                MessageBox.Show("Playlist name can't be empty!");
+                return;
+            }
+            PlayList playList = new PlayList(PlayListNameBox.Text);
+
+            playList.Image = Properties.Resources.Playlist;
+            app.User.myPlaylist.Add(playList);
+            PlayListNameBox.Text = "";
+            NewPlaylistPanel.Visible = false;
+            ListBox.Items.Add(playList.PlaylistName);
+            NoInfoLabel.Text = "Select A Playlist";
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            
+
+            NewPlaylistPanel.Visible = false;
+        }
+    }
+}
